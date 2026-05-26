@@ -1,51 +1,196 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>MCC — Discipline System Login</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #091a47;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ── OUTER WRAPPER ── */
+        .card-outer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 340px;
+        }
+
+        /* ── SEAL ── */
+
+        /* ── CARD ── */
+        .card {
+            background: #ffffff;
+            border-radius: 5px;
+            width: 100%;
+            padding: 80px 19px 70px;
+            border-top: 5px solid #b91c1c;
+            height: 100%;
+        }
+
+        /* ── ERROR ALERT ── */
+        .alert-error {
+            background: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: #991b1b;
+            font-size: 13px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            text-align: center;
+            position: fixed;
+            transform: translate(0, 40%);
+            width: 302px;
+        }
+
+        /* ── FORM FIELDS ── */
+        .field-wrap {
+            margin-bottom: 20px;
+        }
+
+        .field-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        .field-input {
+            width: 100%;
+            padding: 12px 10px;
+            background: #e9ecef;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #1e293b;
+            font-family: inherit;
+            outline: none;
+            transition: background .15s;
+        }
+
+        .field-input:focus {
+            background: #dde3ea;
+        }
+
+        .field-input::placeholder {
+            color: #94a3b8;
+        }
+
+        /* ── SIGN IN BUTTON ── */
+        .btn-signin {
+            width: 100%;
+            padding: 14px;
+            background: #b91c1c;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background .15s;
+            margin-top: 8px;
+        }
+
+        .btn-signin:hover {
+            background: #991b1b;
+        }
+
+        .btn-signin:active {
+            background: #7f1d1d;
+            transform: scale(.99);
+        }
+.loginlogo{
+    border: 1px solid #091a47;
+    border-radius: 100%;
+    width: 155px;
+    height: 155px;
+}
+.mcclogo{
+    background: #091a47;
+    border-radius: 50%;
+      position: fixed;
+    transform: translate(0%, -55%);
+}
+    </style>
+
 </head>
-<body class="bg-light">
+<body>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
+    <div class="card-outer">
 
-        <div class="col-md-4">
+        <!-- SEAL -->
+        <div class="mcclogo">
+        <a href="csu.html"><img src="images/mccLogo.png" class="loginlogo" /></a>
+      </div>
+        <!-- CARD -->
+        <div class="card">
 
-            <div class="card shadow">
-                <div class="card-header text-center">
-                    <h4>MCC Discipline System</h4>
+            
+            <form action="index.php" method="POST">
+
+                <!-- USERNAME -->
+                <div class="field-wrap">
+                    <label class="field-label">Username</label>
+                    <input
+                        type="text"
+                        name="username"
+                        class="field-input"
+                        placeholder="Enter your username"
+                        required
+                        autocomplete="username"
+                    >
                 </div>
 
-                <div class="card-body">
-
-                    <form action="auth/login.php" method="POST">
-
-                        <div class="mb-3">
-                            <label>Username</label>
-                            <input type="text" name="username" class="form-control" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label>Password</label>
-                            <input type="password" name="password" class="form-control" required>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary w-100">
-                            Login
-                        </button>
-
-                    </form>
-
+                <!-- PASSWORD -->
+                <div class="field-wrap">
+                    <label class="field-label">Password</label>
+                    <input
+                        type="password"
+                        name="password"
+                        class="field-input"
+                        placeholder="Enter your password"
+                        required
+                        autocomplete="current-password"
+                    >
                 </div>
-            </div>
+
+                <!-- SUBMIT -->
+                <button type="submit" class="btn-signin">
+                    Sign In
+                </button>
+<?php if ($error): ?>
+                <div class="alert-error">
+                    <?= htmlspecialchars($error); ?>
+                </div>
+            <?php endif; ?>
+
+            </form>
 
         </div>
 
     </div>
-</div>
 
 </body>
 </html>
