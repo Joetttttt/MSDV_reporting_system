@@ -140,7 +140,7 @@
             position: fixed;
             width: 100%;
             max
-        }
+        }   
 
         .error-msg svg {
             flex-shrink: 0;
