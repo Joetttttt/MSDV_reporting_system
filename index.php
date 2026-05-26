@@ -181,9 +181,7 @@
     </style>
 </head>
 <body>
-<div class="mcclogo">
-        <a href="csu.html"><img src="images/mccLogo.png" class="loginlogo" /></a>
-      </div>
+
 <div class="login-wrapper">
     <div class="login-card">
 
