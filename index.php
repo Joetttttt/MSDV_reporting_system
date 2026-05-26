@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($user['role'] == 'admin') {
                 header("Location: admin/dashboard.php");
             } else {
-                header("Location: user/dashboard.php");
+                header("Location: ");
             }
             exit();
 
@@ -109,8 +109,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             margin-bottom: 18px;
             text-align: center;
             position: fixed;
-            transform: translate(0, -50%);
-            
+            transform: translate(0, 40%);
+            width: 302px;
         }
 
         /* ── FORM FIELDS ── */
@@ -178,8 +178,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 .loginlogo{
     border: 1px solid #091a47;
     border-radius: 100%;
-    width: 165px;
-    height: 165px;
+    width: 155px;
+    height: 155px;
 }
 .mcclogo{
     background: #091a47;
