@@ -136,7 +136,6 @@
             color: #9b1222;
             font-size: 13px;
             font-weight: 500;
-        
             position: absolute;
             transform: translate(10%, -60%);
         }
