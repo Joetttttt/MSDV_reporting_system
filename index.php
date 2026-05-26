@@ -132,7 +132,7 @@
             border-left: 4px solid #c0192c;
             border-radius: 5px;
             padding: 10px 14px;
-            margin-bottom: 18px;
+            
             color: #9b1222;
             font-size: 13px;
             font-weight: 500;
