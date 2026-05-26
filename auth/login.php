@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
     } else {
-        header("Location: ../index.php?error=user_not_found");
+        header("Location: ../index.html?error=user_not_found");
         exit();
     }
 
