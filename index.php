@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             margin-bottom: 18px;
             text-align: center;
             position: fixed;
-            transform: translate(0, 40%);
+            transform: translate(0, 20%);
             width: 302px;
         }
 
@@ -178,7 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 .loginlogo{
     border: 1px solid #091a47;
     border-radius: 100%;
-    width: 155px;
+    width: 165px;
     height: 165px;
 }
 .mcclogo{
