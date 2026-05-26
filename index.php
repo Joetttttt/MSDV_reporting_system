@@ -178,7 +178,18 @@
             from { opacity: 0; transform: translateY(-6px); }
             to   { opacity: 1; transform: translateY(0); }
         }
-        
+        .loginlogo{
+    border: 5px solid #091a47;
+    border-radius: 100%;
+    width: 165px;
+    height: 165px;
+}
+.mcclogo{
+    background: #091a47;
+    border-radius: 50%;
+      position: fixed;
+    transform: translate(0%, -125%);
+}
     </style>
 </head>
 <body>
