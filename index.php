@@ -38,7 +38,7 @@
             border-radius: 6px;
             overflow: visible;
             position: relative;
-            padding: 0 10 36px;
+            padding: 0 10px 36px;
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
         }
 
