@@ -86,7 +86,7 @@
         }
 
         .card-body-inner {
-            padding: 100px 36px 36pz;
+            padding: 100px 36px 36px;
         }
 
         .field-label {
