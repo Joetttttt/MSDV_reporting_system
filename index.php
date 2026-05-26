@@ -189,7 +189,7 @@
     border-radius: 50%;
       position: fixed;
     transform: translate(0%, -25%);
-    z-index: 989;
+    z-index: 99;
 }
     </style>
 </head>
