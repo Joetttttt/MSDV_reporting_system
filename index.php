@@ -87,14 +87,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         /* ── SEAL ── */
-
+        
         /* ── CARD ── */
         .card {
             background: #ffffff;
-            border-radius: 5px;
+            border-radius: 10px;
             width: 100%;
-            padding: 80px 19px 70px;
-            border-top: 5px solid #b91c1c;
+            padding: 72px 36px 36px;
+            border-top: 4px solid #b91c1c;
             height: 100%;
         }
 
@@ -108,9 +108,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border-radius: 8px;
             margin-bottom: 18px;
             text-align: center;
-            position: fixed;
-            transform: translate(0, 40%);
-            width: 302px;
         }
 
         /* ── FORM FIELDS ── */
@@ -130,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .field-input {
             width: 100%;
-            padding: 12px 10px;
+            padding: 12px 1px;
             background: #e9ecef;
             border: none;
             border-radius: 8px;
@@ -176,9 +173,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             transform: scale(.99);
         }
 .loginlogo{
-    border: 1px solid #091a47;
+    border: 5px solid #091a47;
     border-radius: 100%;
-    width: 155px;
+    width: 165px;
     height: 165px;
 }
 .mcclogo{
@@ -201,7 +198,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <!-- CARD -->
         <div class="card">
 
-            
+            <?php if ($error): ?>
+                <div class="alert-error">
+                    <?= htmlspecialchars($error); ?>
+                </div>
+            <?php endif; ?>
+
             <form action="index.php" method="POST">
 
                 <!-- USERNAME -->
@@ -234,11 +236,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <button type="submit" class="btn-signin">
                     Sign In
                 </button>
-<?php if ($error): ?>
-                <div class="alert-error">
-                    <?= htmlspecialchars($error); ?>
-                </div>
-            <?php endif; ?>
 
             </form>
 
