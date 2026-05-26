@@ -231,7 +231,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="card-outer">
 
         <!-- SEAL -->
-        
+        <div class="mcclogo">
+        <a href="csu.html"><img src="images/mccLogo.png" class="loginlogo" /></a>
+      </div>
         <!-- CARD -->
         <div class="card">
 
