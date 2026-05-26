@@ -138,7 +138,7 @@
             font-weight: 500;
             animation: fadeInDown 0.3s ease;
             position: absolute;
-            transform: translate(-0%, -60%);
+            transform: translate(-10%, -60%);
         }
 
         .error-msg svg {
