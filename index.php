@@ -29,7 +29,7 @@
 
         .login-wrapper {
             width: 100%;
-            max-width: 40px;
+            max-width: 0px;
             padding: 0 16px;
         }
 
