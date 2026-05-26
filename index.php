@@ -186,34 +186,7 @@
     <div class="login-card">
 
         <!-- Logo -->
-        <div class="logo-area">
-            <div class="logo-circle">
-                <!-- Inline SVG crest approximation (replace with real logo img if available) -->
-                <svg class="crest-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Outer ring text area -->
-                    <circle cx="50" cy="50" r="46" fill="#0d2254" stroke="#c8a227" stroke-width="2"/>
-                    <!-- Inner shield -->
-                    <path d="M50 18 L72 28 L72 58 Q72 76 50 84 Q28 76 28 58 L28 28 Z" fill="#f0f0f0" stroke="#c8a227" stroke-width="1.5"/>
-                    <!-- Torch flame -->
-                    <ellipse cx="50" cy="32" rx="5" ry="8" fill="#f5a623" opacity="0.9"/>
-                    <ellipse cx="50" cy="36" rx="3" ry="5" fill="#e05c00"/>
-                    <!-- Torch handle -->
-                    <rect x="48" y="38" width="4" height="14" rx="1" fill="#8B5E3C"/>
-                    <!-- Book -->
-                    <rect x="37" y="54" width="26" height="16" rx="2" fill="#1a3a8f"/>
-                    <line x1="50" y1="54" x2="50" y2="70" stroke="#fff" stroke-width="1.2"/>
-                    <!-- Stars decoration -->
-                    <text x="50" y="96" text-anchor="middle" font-size="5" fill="#c8a227" font-family="sans-serif">★ ★ ★ ★ ★</text>
-                    <!-- Year -->
-                    <text x="50" y="78" text-anchor="middle" font-size="6" fill="#c8a227" font-weight="bold" font-family="sans-serif">2005</text>
-                    <!-- Top arc text -->
-                    <path id="topArc" d="M 15 50 A 35 35 0 0 1 85 50" fill="none"/>
-                    <text font-size="5.5" fill="#ffffff" font-family="sans-serif" font-weight="bold" letter-spacing="1">
-                        <textPath href="#topArc" startOffset="5%">MANDAUE CITY COLLEGE</textPath>
-                    </text>
-                </svg>
-            </div>
-        </div>
+        
 
         <div class="card-body-inner">
             <?php
