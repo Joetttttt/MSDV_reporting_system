@@ -210,7 +210,27 @@
                 </button>
 
             </form>
-            
+            <?php
+                $error = '';
+                if (isset($_GET['error'])) {
+                    if ($_GET['error'] === 'invalid_password') {
+                        $error = 'Incorrect password. Please try again.';
+                    } elseif ($_GET['error'] === 'user_not_found') {
+                        $error = 'Username not found. Please check your credentials.';
+                    }
+                }
+            ?>
+
+            <?php if ($error): ?>
+            <div class="error-msg">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <?php echo htmlspecialchars($error); ?>
+            </div>
+            <?php endif; ?>
         </div>
 
     </div>
