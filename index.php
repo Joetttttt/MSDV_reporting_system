@@ -160,7 +160,7 @@
     background: #091a47;
     border-radius: 50%;
       position: fixed;
-    transform: translate(46%, -55%);
+    transform: translate(4%, -55%);
     z-index: 9999;
 }
     </style>
