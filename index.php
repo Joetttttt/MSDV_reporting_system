@@ -163,6 +163,7 @@
     transform: translate(50%, -55%);
     z-index: 9999;
     align-items: center;
+    justify-content: center;
 }
     </style>
 </head>
