@@ -179,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     border: 1px solid #091a47;
     border-radius: 100%;
     width: 155px;
-    height: 155px;
+    height: 15px;
 }
 .mcclogo{
     background: #091a47;
