@@ -162,7 +162,7 @@
       position: fixed;
     transform: translate(50%, -55%);
     z-index: 9999;
-    al
+    ali
 }
     </style>
 </head>
