@@ -139,7 +139,7 @@
             animation: fadeInDown 0.3s ease;
             position: fixed;
             width: 100%;
-            max-width: 30px;
+            max-width: 320px;
         }
 
         .error-msg svg {
