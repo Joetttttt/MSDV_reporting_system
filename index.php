@@ -51,14 +51,8 @@
             border-radius: 6px 6px 0 0;
         }
 
-        /* Logo circle area */
-
-
-        /* Fallback SVG crest if image not available */
-        
         .card-body-inner {
-            padding: 100px 16px 55px;
-            margin: 0 50p;
+            padding: 100px 16px 0;
         }
 
         .field-label {
@@ -132,15 +126,11 @@
             border-left: 4px solid #c0192c;
             border-radius: 5px;
             padding: 10px 14px;
-            margin-bottom: 18px;
+            margin-top: 14px;
             color: #9b1222;
             font-size: 13px;
             font-weight: 500;
             animation: fadeInDown 0.3s ease;
-            position: fixed;
-            width: 100%;
-            max-width: 308px;
-            top: 460px;
         }
 
         .error-msg svg {
@@ -154,89 +144,91 @@
             from { opacity: 0; transform: translateY(-6px); }
             to   { opacity: 1; transform: translateY(0); }
         }
-        .loginlogo{
-    border: 5px solid #091a47;
-    border-radius: 100%;
-    width: 155px;
-    height: 155px;
-}
-.mcclogo{
-    background: #091a47;
-    border-radius: 50%;
-      position: fixed;
-    transform: translate(60%, -55%);
-    z-index: 9999;
-}
+
+        .loginlogo {
+            border: 5px solid #091a47;
+            border-radius: 100%;
+            width: 155px;
+            height: 155px;
+        }
+
+        .mcclogo {
+            background: #091a47;
+            border-radius: 50%;
+            position: absolute;
+            transform: translate(60%, -55%);
+            z-index: 9999;
+        }
     </style>
 </head>
 <body>
 
 <div class="login-wrapper">
-    <div class="mcclogo">
-        <a href="csu.html"><img src="images/mccLogo.png" class="loginlogo" /></a>
-      </div>
-    <div class="login-card">
-
-        <!-- Logo -->
-        
-
-        <div class="card-body-inner">
-            
-
-            <form action="auth/login.php" method="POST">
-
-                <div class="form-group">
-                    <label class="field-label" for="username">Username</label>
-                    <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        class="form-control-mcc"
-                        placeholder="Enter your username"
-                        required
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label class="field-label" for="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        class="form-control-mcc"
-                        placeholder="Enter your password"
-                        required
-                    >
-                </div>
-
-                <button type="submit" class="btn-signin">
-                    Sign In
-                </button>
-
-            </form>
-            <?php
-                $error = '';
-                if (isset($_GET['error'])) {
-                    if ($_GET['error'] === 'invalid_password') {
-                        $error = 'Incorrect password. Please try again.';
-                    } elseif ($_GET['error'] === 'user_not_found') {
-                        $error = 'Username not found. Please check your credentials.';
-                    }
-                }
-            ?>
-
-            <?php if ($error): ?>
-            <div class="error-msg">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <line x1="12" y1="8" x2="12" y2="12"/>
-                    <line x1="12" y1="16" x2="12.01" y2="16"/>
-                </svg>
-                <?php echo htmlspecialchars($error); ?>
-            </div>
-            <?php endif; ?>
+    <div style="position: relative;">
+        <div class="mcclogo">
+            <a href="csu.html"><img src="images/mccLogo.png" class="loginlogo" /></a>
         </div>
+        <div class="login-card">
 
+            <div class="card-body-inner">
+
+                <?php
+                    $error = '';
+                    if (isset($_GET['error'])) {
+                        if ($_GET['error'] === 'invalid_password') {
+                            $error = 'Incorrect password. Please try again.';
+                        } elseif ($_GET['error'] === 'user_not_found') {
+                            $error = 'Username not found. Please check your credentials.';
+                        }
+                    }
+                ?>
+
+                <form action="auth/login.php" method="POST">
+
+                    <div class="form-group">
+                        <label class="field-label" for="username">Username</label>
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            class="form-control-mcc"
+                            placeholder="Enter your username"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label class="field-label" for="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-control-mcc"
+                            placeholder="Enter your password"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="btn-signin">
+                        Sign In
+                    </button>
+
+                    <?php if ($error): ?>
+                    <div class="error-msg">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="12"/>
+                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                        <?php echo htmlspecialchars($error); ?>
+                    </div>
+                    <?php endif; ?>
+
+                </form>
+
+            </div>
+
+        </div>
     </div>
 </div>
 
