@@ -5,12 +5,12 @@ session_start();
 include("../config/database.php");
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../index.php");
+    header("Location: ../index.html");
     exit();
 }
 
 if ($_SESSION['role'] != 'admin') {
-    header("Location: ../index.php");
+    header("Location: ../index.html");
     exit();
 }
 
