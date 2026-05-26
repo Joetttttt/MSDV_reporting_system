@@ -30,7 +30,7 @@
         .login-wrapper {
             width: 100%;
             max-width: 350px;
-            padding: 0 10px;
+            padding: 0 px;
         }
 
         .login-card {
