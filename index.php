@@ -140,6 +140,7 @@
             position: fixed;
             width: 100%;
             max-width: 308px;
+            
         }
 
         .error-msg svg {
