@@ -74,10 +74,7 @@
         }
 
         .logo-circle img {
-            width: 90px;
-            height: 90px;
-            object-fit: contain;
-        }
+        
 
         /* Fallback SVG crest if image not available */
         
