@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 if ($_SESSION['role'] != 'teacher') {
-    header("Location: ../index.php");
+    header("Location: ../index.html");
     exit();
 }
 
