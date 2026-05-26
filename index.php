@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background: #091a47;
+            background: #0d2060;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -87,7 +87,58 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         /* ── SEAL ── */
-        
+        .seal-ring {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: #0d2060;
+            border: 4px solid #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            margin-bottom: -55px;
+            flex-shrink: 0;
+        }
+
+        .seal-inner {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background: #0f1f5c;
+            border: 3px solid #c8a84b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            gap: 2px;
+        }
+
+        .seal-arc {
+            font-size: 6.5px;
+            font-weight: 700;
+            color: #c8a84b;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .seal-flame {
+            font-size: 24px;
+            color: #ffffff;
+            line-height: 1;
+        }
+
+        .seal-year {
+            font-size: 8px;
+            font-weight: 700;
+            color: #c8a84b;
+            letter-spacing: .06em;
+        }
+
         /* ── CARD ── */
         .card {
             background: #ffffff;
@@ -95,7 +146,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             width: 100%;
             padding: 72px 36px 36px;
             border-top: 4px solid #b91c1c;
-            height: 100%;
         }
 
         /* ── ERROR ALERT ── */
@@ -127,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .field-input {
             width: 100%;
-            padding: 12px 1px;
+            padding: 12px 14px;
             background: #e9ecef;
             border: none;
             border-radius: 8px;
@@ -182,7 +232,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     background: #091a47;
     border-radius: 50%;
       position: fixed;
-    transform: translate(0%, -55%);
+    transform: translate(0%, -35=5%);
 }
     </style>
 
