@@ -154,7 +154,7 @@
     border: 5px solid #091a47;
     border-radius: 100%;
     width: 165px;
-    height: 16px;
+    height: 155px;
 }
 .mcclogo{
     background: #091a47;
