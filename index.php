@@ -75,7 +75,6 @@
 
         .logo-circle img {
 
-
         /* Fallback SVG crest if image not available */
         
         .card-body-inner {
