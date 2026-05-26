@@ -131,7 +131,7 @@
             border: 1px solid #f5c0c5;
             border-left: 4px solid #c0192c;
             border-radius: 5px;
-            padding: 10px 14px;
+            padding: 10px 1px;
             
             color: #9b1222;
             font-size: 13px;
