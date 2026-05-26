@@ -73,7 +73,7 @@
             box-shadow: 0 4px 16px rgba(0,0,0,0.35);
         }
 
-        .lo
+
 
         /* Fallback SVG crest if image not available */
         
