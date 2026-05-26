@@ -118,7 +118,7 @@
         }
 
         .error-msg {
-            display: flex;
+            display: none; /* hidden by default, shown by JS */
             align-items: center;
             gap: 8px;
             background: #fdf0f1;
@@ -172,17 +172,6 @@
 
             <div class="card-body-inner">
 
-                <?php
-                    $error = '';
-                    if (isset($_GET['error'])) {
-                        if ($_GET['error'] === 'invalid_password') {
-                            $error = 'Incorrect password. Please try again.';
-                        } elseif ($_GET['error'] === 'user_not_found') {
-                            $error = 'Username not found. Please check your credentials.';
-                        }
-                    }
-                ?>
-
                 <form action="auth/login.php" method="POST">
 
                     <div class="form-group">
@@ -213,16 +202,14 @@
                         Sign In
                     </button>
 
-                    <?php if ($error): ?>
-                    <div class="error-msg">
+                    <div class="error-msg" id="errorMsg">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"/>
                             <line x1="12" y1="8" x2="12" y2="12"/>
                             <line x1="12" y1="16" x2="12.01" y2="16"/>
                         </svg>
-                        <?php echo htmlspecialchars($error); ?>
+                        <span id="errorText"></span>
                     </div>
-                    <?php endif; ?>
 
                 </form>
 
@@ -231,6 +218,25 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Read the ?error= parameter from the URL
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get('error');
+
+    const errorMessages = {
+        'invalid_password': 'Incorrect password. Please try again.',
+        'user_not_found': 'Username not found. Please check your credentials.'
+    };
+
+    if (error && errorMessages[error]) {
+        const errorMsg = document.getElementById('errorMsg');
+        const errorText = document.getElementById('errorText');
+
+        errorText.textContent = errorMessages[error];
+        errorMsg.style.display = 'flex'; // show the error box
+    }
+</script>
 
 </body>
 </html>
