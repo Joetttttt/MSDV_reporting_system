@@ -6,42 +6,219 @@
     <title>Login</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #0d2254;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(20, 45, 110, 0.8) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(10, 25, 80, 0.6) 0%, transparent 50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Barlow', sans-serif;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 400px;
+            padding: 0 16px;
+        }
+
+        .login-card {
+            background: #ffffff;
+            border-radius: 6px;
+            overflow: visible;
+            position: relative;
+            padding: 0 0 36px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
+        }
+
+        /* Red top bar */
+        .login-card::before {
+            content: '';
+            display: block;
+            height: 6px;
+            background: #c0192c;
+            border-radius: 6px 6px 0 0;
+        }
+
+        /* Logo circle area */
+        .logo-area {
+            display: flex;
+            justify-content: center;
+            margin-top: -6px;
+            margin-bottom: 24px;
+            padding-top: 20px;
+        }
+
+        .logo-circle {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: #0d2254;
+            border: 4px solid #c0192c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+        }
+
+        .logo-circle img {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+        }
+
+        /* Fallback SVG crest if image not available */
+        .logo-circle .crest-svg {
+            width: 86px;
+            height: 86px;
+        }
+
+        .card-body-inner {
+            padding: 0 36px;
+        }
+
+        .field-label {
+            display: block;
+            font-size: 11.5px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: #1a2f6e;
+            margin-bottom: 7px;
+            text-transform: uppercase;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control-mcc {
+            width: 100%;
+            padding: 12px 14px;
+            border: none;
+            border-radius: 5px;
+            background: #e8eaf0;
+            color: #444;
+            font-family: 'Barlow', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control-mcc::placeholder {
+            color: #9aa0b5;
+            font-size: 13.5px;
+        }
+
+        .form-control-mcc:focus {
+            background: #dde0ec;
+            box-shadow: 0 0 0 3px rgba(192, 25, 44, 0.18);
+        }
+
+        .btn-signin {
+            width: 100%;
+            padding: 13px;
+            background: #c0192c;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Barlow', sans-serif;
+            font-size: 13.5px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 6px;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-signin:hover {
+            background: #a5151f;
+        }
+
+        .btn-signin:active {
+            transform: scale(0.98);
+        }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
+<div class="login-wrapper">
+    <div class="login-card">
 
-        <div class="col-md-4">
-
-            <div class="card shadow">
-                <div class="card-header text-center">
-                    <h4>MCC Discipline System</h4>
-                </div>
-
-                <div class="card-body">
-
-                    <form action="auth/login.php" method="POST">
-
-                        <div class="mb-3">
-                            <label>Username</label>
-                            <input type="text" name="username" class="form-control" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label>Password</label>
-                            <input type="password" name="password" class="form-control" required>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary w-100">
-                            Login
-                        </button>
-
-                    </form>
-
-                </div>
+        <!-- Logo -->
+        <div class="logo-area">
+            <div class="logo-circle">
+                <!-- Inline SVG crest approximation (replace with real logo img if available) -->
+                <svg class="crest-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Outer ring text area -->
+                    <circle cx="50" cy="50" r="46" fill="#0d2254" stroke="#c8a227" stroke-width="2"/>
+                    <!-- Inner shield -->
+                    <path d="M50 18 L72 28 L72 58 Q72 76 50 84 Q28 76 28 58 L28 28 Z" fill="#f0f0f0" stroke="#c8a227" stroke-width="1.5"/>
+                    <!-- Torch flame -->
+                    <ellipse cx="50" cy="32" rx="5" ry="8" fill="#f5a623" opacity="0.9"/>
+                    <ellipse cx="50" cy="36" rx="3" ry="5" fill="#e05c00"/>
+                    <!-- Torch handle -->
+                    <rect x="48" y="38" width="4" height="14" rx="1" fill="#8B5E3C"/>
+                    <!-- Book -->
+                    <rect x="37" y="54" width="26" height="16" rx="2" fill="#1a3a8f"/>
+                    <line x1="50" y1="54" x2="50" y2="70" stroke="#fff" stroke-width="1.2"/>
+                    <!-- Stars decoration -->
+                    <text x="50" y="96" text-anchor="middle" font-size="5" fill="#c8a227" font-family="sans-serif">★ ★ ★ ★ ★</text>
+                    <!-- Year -->
+                    <text x="50" y="78" text-anchor="middle" font-size="6" fill="#c8a227" font-weight="bold" font-family="sans-serif">2005</text>
+                    <!-- Top arc text -->
+                    <path id="topArc" d="M 15 50 A 35 35 0 0 1 85 50" fill="none"/>
+                    <text font-size="5.5" fill="#ffffff" font-family="sans-serif" font-weight="bold" letter-spacing="1">
+                        <textPath href="#topArc" startOffset="5%">MANDAUE CITY COLLEGE</textPath>
+                    </text>
+                </svg>
             </div>
+        </div>
 
+        <div class="card-body-inner">
+            <form action="auth/login.php" method="POST">
+
+                <div class="form-group">
+                    <label class="field-label" for="username">Username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        class="form-control-mcc"
+                        placeholder="Enter your username"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="field-label" for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="form-control-mcc"
+                        placeholder="Enter your password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="btn-signin">
+                    Sign In
+                </button>
+
+            </form>
         </div>
 
     </div>
