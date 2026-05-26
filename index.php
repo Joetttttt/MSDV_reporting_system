@@ -138,7 +138,7 @@
             font-weight: 500;
             animation: fadeInDown 0.3s ease;
             position: fixed;
-            width: 1;
+            width: 10;
         }
 
         .error-msg svg {
