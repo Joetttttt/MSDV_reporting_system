@@ -231,14 +231,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="card-outer">
 
         <!-- SEAL -->
-        <div class="seal-ring">
-            <div class="seal-inner">
-                <div class="seal-arc">Mandaue<br>City College</div>
-                <div class="seal-flame">&#128293;</div>
-                <div class="seal-year">2005</div>
-            </div>
-        </div>
-
+        
         <!-- CARD -->
         <div class="card">
 
