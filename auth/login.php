@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
         } else {
-            header("Location: ../c:\xampp\htdocs\MSDV_Reporting_System?error=invalid_password");
+            header("Location: ../index.php?error=invalid_password");
             exit();
         }
 
