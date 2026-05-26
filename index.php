@@ -136,7 +136,7 @@
             color: #9b1222;
             font-size: 13px;
             font-weight: 500;
-            animation: fadeInDown 0.3s ease;
+           ;
             position: absolute;
             transform: translate(10%, -60%);
         }
