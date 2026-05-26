@@ -189,6 +189,7 @@
     border-radius: 50%;
       position: fixed;
     transform: translate(0%, -25%);
+    
 }
     </style>
 </head>
