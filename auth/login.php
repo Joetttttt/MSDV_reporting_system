@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
         } else {
-            header("Location: ../index.ph?error=invalid_password");
+            header("Location: ../index.p?error=invalid_password");
             exit();
         }
 
