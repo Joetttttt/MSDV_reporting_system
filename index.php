@@ -75,7 +75,7 @@
         }
 
         .form-control-mcc {
-            width: 100%;
+            width: 10%;
             padding: 12px 14px;
             border: none;
             border-radius: 5px;
