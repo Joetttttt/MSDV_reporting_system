@@ -80,11 +80,7 @@
         }
 
         /* Fallback SVG crest if image not available */
-        .logo-circle .crest-svg {
-            width: 86px;
-            height: 86px;
-        }
-
+        
         .card-body-inner {
             padding: 100px 36px 36px;
         }
