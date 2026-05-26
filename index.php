@@ -57,7 +57,7 @@
         /* Fallback SVG crest if image not available */
         
         .card-body-inner {
-            padding: 100px 16px px;
+            padding: 100px 16px 5px;
             margin: 0 50p;
         }
 
