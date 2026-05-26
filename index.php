@@ -150,6 +150,34 @@
         .btn-signin:active {
             transform: scale(0.98);
         }
+
+        .error-msg {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #fdf0f1;
+            border: 1px solid #f5c0c5;
+            border-left: 4px solid #c0192c;
+            border-radius: 5px;
+            padding: 10px 14px;
+            margin-bottom: 18px;
+            color: #9b1222;
+            font-size: 13px;
+            font-weight: 500;
+            animation: fadeInDown 0.3s ease;
+        }
+
+        .error-msg svg {
+            flex-shrink: 0;
+            width: 16px;
+            height: 16px;
+            color: #c0192c;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -188,6 +216,28 @@
         </div>
 
         <div class="card-body-inner">
+            <?php
+                $error = '';
+                if (isset($_GET['error'])) {
+                    if ($_GET['error'] === 'invalid_password') {
+                        $error = 'Incorrect password. Please try again.';
+                    } elseif ($_GET['error'] === 'user_not_found') {
+                        $error = 'Username not found. Please check your credentials.';
+                    }
+                }
+            ?>
+
+            <?php if ($error): ?>
+            <div class="error-msg">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <?php echo htmlspecialchars($error); ?>
+            </div>
+            <?php endif; ?>
+
             <form action="auth/login.php" method="POST">
 
                 <div class="form-group">
