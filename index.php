@@ -188,7 +188,7 @@
     background: #091a47;
     border-radius: 50%;
       position: fixed;
-    transform: translate(%, -55%);
+    transform: translate(1%, -55%);
     z-index: 9999;
 }
     </style>
