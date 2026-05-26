@@ -6,12 +6,12 @@ include("../config/database.php");
 
 /* CHECK LOGIN */
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../index.php");
+    header("Location: ../index.html");
     exit();
 }
 
 if ($_SESSION['role'] != 'admin') {
-    header("Location: ../index.php");
+    header("Location: ../index.html");
     exit();
 }
 
