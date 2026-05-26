@@ -159,7 +159,7 @@
     background: #091a47;
     border-radius: 50%;
       position: fixed;
-    transform: translate(60%, -55%);
+    transform: translate(6%, -55%);
     z-index: 9999;
 }
     </style>
