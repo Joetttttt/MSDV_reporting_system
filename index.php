@@ -17,7 +17,7 @@
 
         body {
             min-height: 100vh;
-            background-color: #0d2254;
+            background-color: #091a47;
             background-image:
                 radial-gradient(ellipse at 20% 50%, rgba(20, 45, 110, 0.8) 0%, transparent 60%),
                 radial-gradient(ellipse at 80% 20%, rgba(10, 25, 80, 0.6) 0%, transparent 50%);
