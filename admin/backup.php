@@ -3,7 +3,7 @@ session_start();
 include("../config/database.php");
 
 if (!isset($_SESSION['user_id'])) { header("Location: ../index.html"); exit(); }
-if ($_SESSION['role'] != 'admin') { header("Location: ../index.php"); exit(); }
+if ($_SESSION['role'] != 'admin') { header("Location: ../index.html"); exit(); }
 
 /* ─────────────────────────────────────────
    LOG EXPORT HISTORY (stored in a file)
