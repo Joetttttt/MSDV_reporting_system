@@ -188,7 +188,7 @@
     background: #091a47;
     border-radius: 50%;
       position: fixed;
-    transform: translate(0%, -125%);
+    transform: translate(0%, -25%);
 }
     </style>
 </head>
