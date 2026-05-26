@@ -52,7 +52,7 @@
         }
 
         /* Logo circle area */
-       
+    
 
 
         /* Fallback SVG crest if image not available */
