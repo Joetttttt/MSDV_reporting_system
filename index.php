@@ -109,8 +109,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             margin-bottom: 18px;
             text-align: center;
             position: fixed;
-            transform: translate(0, 20%);
-            width: 302px;
+            transform: translate(0, -50%);
+            
         }
 
         /* ── FORM FIELDS ── */
