@@ -1,58 +1,4 @@
-<?php
 
-session_start();
-
-if (isset($_SESSION['user_id'])) {
-
-    if ($_SESSION['role'] == 'admin') {
-        header("Location: admin/dashboard.php");
-    } else {
-        header("Location: user/dashboard.php");
-    }
-    exit();
-
-}
-
-$error = "";
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-    include("config/database.php");
-
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $password = $_POST['password'];
-
-    $query = "SELECT * FROM users WHERE username = '$username' LIMIT 1";
-    $result = mysqli_query($conn, $query);
-
-    if ($result && mysqli_num_rows($result) > 0) {
-
-        $user = mysqli_fetch_assoc($result);
-
-        if (password_verify($password, $user['password'])) {
-
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role'];
-
-            if ($user['role'] == 'admin') {
-                header("Location: admin/dashboard.php");
-            } else {
-                header("Location: user/dashboard.php");
-            }
-            exit();
-
-        } else {
-            $error = "Invalid username or password.";
-        }
-
-    } else {
-        $error = "Invalid username or password.";
-    }
-
-}
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background: #0d2060;
+            background: #091a47;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -87,65 +33,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         /* ── SEAL ── */
-        .seal-ring {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            background: #0d2060;
-            border: 4px solid #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            z-index: 2;
-            margin-bottom: -55px;
-            flex-shrink: 0;
-        }
-
-        .seal-inner {
-            width: 96px;
-            height: 96px;
-            border-radius: 50%;
-            background: #0f1f5c;
-            border: 3px solid #c8a84b;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            gap: 2px;
-        }
-
-        .seal-arc {
-            font-size: 6.5px;
-            font-weight: 700;
-            color: #c8a84b;
-            letter-spacing: .07em;
-            text-transform: uppercase;
-            text-align: center;
-            line-height: 1.3;
-        }
-
-        .seal-flame {
-            font-size: 24px;
-            color: #ffffff;
-            line-height: 1;
-        }
-
-        .seal-year {
-            font-size: 8px;
-            font-weight: 700;
-            color: #c8a84b;
-            letter-spacing: .06em;
-        }
 
         /* ── CARD ── */
         .card {
             background: #ffffff;
-            border-radius: 10px;
+            border-radius: 5px;
             width: 100%;
-            padding: 72px 36px 36px;
-            border-top: 4px solid #b91c1c;
+            padding: 80px 19px 70px;
+            border-top: 5px solid #b91c1c;
+            height: 100%;
         }
 
         /* ── ERROR ALERT ── */
@@ -158,6 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border-radius: 8px;
             margin-bottom: 18px;
             text-align: center;
+            position: fixed;
+            transform: translate(0, 40%);
+            width: 302px;
         }
 
         /* ── FORM FIELDS ── */
@@ -177,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .field-input {
             width: 100%;
-            padding: 12px 14px;
+            padding: 12px 10px;
             background: #e9ecef;
             border: none;
             border-radius: 8px;
@@ -222,7 +121,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             background: #7f1d1d;
             transform: scale(.99);
         }
-
+.loginlogo{
+    border: 1px solid #091a47;
+    border-radius: 100%;
+    width: 155px;
+    height: 155px;
+}
+.mcclogo{
+    background: #091a47;
+    border-radius: 50%;
+      position: fixed;
+    transform: translate(0%, -55%);
+}
     </style>
 
 </head>
@@ -231,23 +141,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="card-outer">
 
         <!-- SEAL -->
-        <div class="seal-ring">
-            <div class="seal-inner">
-                <div class="seal-arc">Mandaue<br>City College</div>
-                <div class="seal-flame">&#128293;</div>
-                <div class="seal-year">2005</div>
-            </div>
-        </div>
-
+        <div class="mcclogo">
+        <a href="csu.html"><img src="images/mccLogo.png" class="loginlogo" /></a>
+      </div>
         <!-- CARD -->
         <div class="card">
 
-            <?php if ($error): ?>
-                <div class="alert-error">
-                    <?= htmlspecialchars($error); ?>
-                </div>
-            <?php endif; ?>
-
+            
             <form action="index.php" method="POST">
 
                 <!-- USERNAME -->
@@ -280,6 +180,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <button type="submit" class="btn-signin">
                     Sign In
                 </button>
+<?php if ($error): ?>
+                <div class="alert-error">
+                    <?= htmlspecialchars($error); ?>
+                </div>
+            <?php endif; ?>
 
             </form>
 
