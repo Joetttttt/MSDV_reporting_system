@@ -52,27 +52,7 @@
         }
 
         /* Logo circle area */
-        .logo-area {
-            display: flex;
-            justify-content: center;
-            margin-top: -6px;
-            margin-bottom: 24px;
-            padding-top: 20px;
-        }
-
-        .logo-circle {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            background: #0d2254;
-            border: 4px solid #c0192c;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.35);
-        }
-
+       
 
 
         /* Fallback SVG crest if image not available */
