@@ -39,11 +39,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
         } else {
-            echo "Invalid Password";
+            header("Location: ../index.php?error=invalid_password");
+            exit();
         }
 
     } else {
-        echo "User Not Found";
+        header("Location: ../index.php?error=user_not_found");
+        exit();
     }
 
 }
