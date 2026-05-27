@@ -1,7 +1,7 @@
 <?php
 
 $conn = mysqli_connect(
-    getenv("MYSQLHOST"),
+    getenv("mysql.railway.internal"),
     getenv("root"),
     getenv("GZcElxrUWAbmCqZTJFmyjSBEwpaqmWEz"),
     getenv("railway"),
