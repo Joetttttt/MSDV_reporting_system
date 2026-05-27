@@ -5,7 +5,7 @@ $conn = mysqli_connect(
     getenv("MYSQLUSER"),
     getenv("MYSQLPASSWORD"),
     getenv("railway"),
-    getenv("MYSQLPORT")
+    getenv("3306")
 );
 
 if (!$conn) {
