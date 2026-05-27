@@ -2,7 +2,7 @@
 
 $conn = mysqli_connect(
     getenv("MYSQLHOST"),
-    getenv("MYSQLUSER"),
+    getenv("root"),
     getenv("GZcElxrUWAbmCqZTJFmyjSBEwpaqmWEz"),
     getenv("railway"),
     getenv("3306")
