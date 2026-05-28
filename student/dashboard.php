@@ -35,8 +35,12 @@ $violationsQuery = "SELECT * FROM violations WHERE student_id='$username' OR stu
 $violationsResult = mysqli_query($conn, $violationsQuery);
 $totalViolations = mysqli_num_rows($violationsResult);
 
-$pendingViolations = mysqli_num_rows(mysqli_query($conn, "$violationsQuery AND case_status='Pending'"));
-$completedViolations = mysqli_num_rows(mysqli_query($conn, "$violationsQuery AND case_status='Completed'"));
+$pendingViolations = mysqli_num_rows(mysqli_query($conn,
+    "SELECT * FROM violations WHERE (student_id='$username' OR student_name='$fullname') AND case_status='Pending'"
+));
+$completedViolations = mysqli_num_rows(mysqli_query($conn,
+    "SELECT * FROM violations WHERE (student_id='$username' OR student_name='$fullname') AND case_status='Completed'"
+));
 
 /* Appeals for student */
 $appealsQuery = "SELECT * FROM appeals WHERE student_id='$username' OR student_name='$fullname' ORDER BY created_at DESC";
