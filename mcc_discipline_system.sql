@@ -218,6 +218,39 @@ ALTER TABLE `notifications`
 ALTER TABLE `students`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `appeals`
+--
+
+CREATE TABLE `appeals` (
+  `id` int(11) NOT NULL,
+  `violation_id` int(11) NOT NULL,
+  `student_id` varchar(20) NOT NULL,
+  `appeal_reason` text NOT NULL,
+  `appeal_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `appeal_status` varchar(50) DEFAULT 'Pending',
+  `admin_response` text,
+  `resolved_date` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Indexes for table `appeals`
+--
+ALTER TABLE `appeals`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `violation_id` (`violation_id`),
+  ADD KEY `student_id` (`student_id`);
+
+--
+-- AUTO_INCREMENT for table `appeals`
+--
+ALTER TABLE `appeals`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `users`
 --
