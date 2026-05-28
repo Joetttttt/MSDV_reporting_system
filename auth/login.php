@@ -20,22 +20,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['fullname'] = $user['fullname'];
+            $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
 
             if ($user['role'] == 'admin') {
                 header("Location: ../admin/dashboard.php");
             }
-
             elseif ($user['role'] == 'teacher') {
                 header("Location: ../teacher/report_violation.php");
             }
-
             elseif ($user['role'] == 'csu') {
                 header("Location: ../csu/report_violation.php");
             }
-
             elseif ($user['role'] == 'jassu') {
                 header("Location: ../jassu/report_violation.php");
+            }
+            elseif ($user['role'] == 'student') {
+                header("Location: ../student/dashboard.php");
+            } else {
+                header("Location: ../index.html");
             }
 
         } else {
