@@ -1,5 +1,6 @@
 <?php
-include("../config/session.php");
-?>
 
-<h1>Teacher Dashboard</h1>
+require_once "../config/auth.php";
+
+echo "<h1>Teacher Dashboard</h1>";
+?>
