@@ -1,34 +1,66 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>MSDV Login</title>
-</head>
-<body>
+<?php
 
-<h2>MSDV Login</h2>
+session_start();
 
-<form action="process_login.php" method="POST">
+include("../config/database.php");
 
-    <label>Username</label><br>
-    <input type="text" name="username" required>
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    <br><br>
+    $username = mysqli_real_escape_string(
+        $conn,
+        $_POST['username']
+    );
 
-    <label>Password</label><br>
-    <input type="password" name="password" required>
+    $password = md5($_POST['password']);
 
-    <br><br>
+    $sql = "SELECT * FROM users
+            WHERE username='$username'
+            AND password='$password'";
 
-    <input type="checkbox" name="remember_me">
-    Remember Me
+    $result = mysqli_query($conn, $sql);
 
-    <br><br>
+    if (mysqli_num_rows($result) > 0) {
 
-    <button type="submit">
-        Login
-    </button>
+        $user = mysqli_fetch_assoc($result);
 
-</form>
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['fullname'] = $user['fullname'];
+        $_SESSION['role'] = $user['role'];
 
-</body>
-</html>
+        if ($user['first_login'] == 1) {
+
+            header("Location: first_login.php");
+            exit();
+        }
+
+        switch ($user['role']) {
+
+            case 'admin':
+                header("Location: ../admin/dashboard.php");
+                break;
+
+            case 'teacher':
+                header("Location: ../teacher/dashboard.php");
+                break;
+
+            case 'jassu':
+                header("Location: ../jassu/dashboard.php");
+                break;
+
+            case 'csu':
+                header("Location: ../csu/dashboard.php");
+                break;
+
+            case 'student':
+                header("Location: ../student/dashboard.php");
+                break;
+        }
+
+    } else {
+
+        echo "Invalid username or password.";
+
+    }
+
+}
+?>
