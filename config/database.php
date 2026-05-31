@@ -3,12 +3,16 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$db = "mcc_discipline_system";
+$dbname = "msdv_reporting_system";
 
-$conn = mysqli_connect($host, $user, $pass, $db);
+$conn = mysqli_connect(
+    $host,
+    $user,
+    $pass,
+    $dbname
+);
 
 if (!$conn) {
-    die("Database Connection Failed");
+    die("Connection Failed: " . mysqli_connect_error());
 }
-
 ?>
