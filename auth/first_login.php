@@ -12,25 +12,27 @@ if(!isset($_SESSION['user_id'])){
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Change Password</title>
+    <title>First Login</title>
 </head>
 <body>
 
-<h2>First Login - Change Password</h2>
+<h2>Change Password</h2>
 
 <form action="update_password.php" method="POST">
 
     <label>New Password</label><br>
-    <input type="password"
-           name="new_password"
-           required>
+    <input
+        type="password"
+        name="new_password"
+        required>
 
     <br><br>
 
     <label>Confirm Password</label><br>
-    <input type="password"
-           name="confirm_password"
-           required>
+    <input
+        type="password"
+        name="confirm_password"
+        required>
 
     <br><br>
 
