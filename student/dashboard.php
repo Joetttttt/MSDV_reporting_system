@@ -2,7 +2,7 @@
 
 include("../config/auth.php");
 
-if($_SESSION['role'] != 'teacher'){
+if($_SESSION['role'] != 's'){
     header("Location: ../auth/login.php");
     exit();
 }
