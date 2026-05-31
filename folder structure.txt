@@ -8,7 +8,7 @@ MSDV_Reporting_System/
 │   │   
 │   │   
 │   │   
-│   │   └── student.css
+│   │   
 │   │
 │   ├── js/
 │   │   ├── bootstrap.bundle.min.js
