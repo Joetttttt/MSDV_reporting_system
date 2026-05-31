@@ -28,11 +28,7 @@ MSDV_Reporting_System/
 │   ├── session.php
 │   └── functions.php
 │
-├── includes/
-│   ├── header.php
-│   ├── footer.php
-│   ├── navbar.php
-│   └── notifications.php
+
 │
 ├── admin/
 │   │
