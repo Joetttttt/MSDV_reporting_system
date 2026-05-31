@@ -9,7 +9,7 @@ if(!isset($_SESSION['user_id'])){
     if(isset($_COOKIE['remember_token'])){
 
         $token =
-            $_COOKIE['remember_token'];
+        $_COOKIE['remember_token'];
 
         $result =
         mysqli_query(
@@ -22,16 +22,16 @@ if(!isset($_SESSION['user_id'])){
         if(mysqli_num_rows($result) > 0){
 
             $user =
-                mysqli_fetch_assoc($result);
+            mysqli_fetch_assoc($result);
 
             $_SESSION['user_id']
-                = $user['id'];
+            = $user['id'];
 
             $_SESSION['fullname']
-                = $user['fullname'];
+            = $user['fullname'];
 
             $_SESSION['role']
-                = $user['role'];
+            = $user['role'];
 
         }
 
