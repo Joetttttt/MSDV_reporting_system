@@ -2,7 +2,7 @@
 
 session_start();
 
-if (!isset($_SESSION['user_id'])) {
+if(!isset($_SESSION['user_id'])){
     header("Location: login.php");
     exit();
 }
@@ -21,12 +21,16 @@ if (!isset($_SESSION['user_id'])) {
 <form action="update_password.php" method="POST">
 
     <label>New Password</label><br>
-    <input type="password" name="new_password" required>
+    <input type="password"
+           name="new_password"
+           required>
 
     <br><br>
 
     <label>Confirm Password</label><br>
-    <input type="password" name="confirm_password" required>
+    <input type="password"
+           name="confirm_password"
+           required>
 
     <br><br>
 
