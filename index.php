@@ -60,3 +60,52 @@ if(isset($_POST['login']))
     }
 }
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+<title>MSDV Login</title>
+</head>
+
+<body>
+
+<h2>MSDV Reporting System</h2>
+
+<form method="POST">
+
+<input
+type="text"
+name="username"
+placeholder="Username"
+required>
+
+<br><br>
+
+<input
+type="password"
+name="password"
+placeholder="Password"
+required>
+
+<br><br>
+
+<label>
+<input type="checkbox" name="remember">
+Remember Me
+</label>
+
+<br><br>
+
+<button
+type="submit"
+name="login">
+Login
+</button>
+
+</form>
+
+<p style="color:red;">
+<?php echo $error; ?>
+</p>
+
+</body>
+</html>
