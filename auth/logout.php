@@ -6,7 +6,8 @@ include("../config/database.php");
 
 if(isset($_COOKIE['remember_token'])){
 
-    $token = $_COOKIE['remember_token'];
+    $token =
+    $_COOKIE['remember_token'];
 
     mysqli_query(
         $conn,
