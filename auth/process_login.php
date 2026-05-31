@@ -1,7 +1,6 @@
 <?php
 
 session_start();
-
 include("../config/database.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -27,13 +26,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['fullname'] = $user['fullname'];
         $_SESSION['role'] = $user['role'];
 
-        if ($user['first_login'] == 1) {
+        if(isset($_POST['remember_me'])){
 
+            $token = bin2hex(random_bytes(32));
+
+            mysqli_query(
+                $conn,
+                "UPDATE users
+                 SET remember_token='$token'
+                 WHERE id='{$user['id']}'"
+            );
+
+            setcookie(
+                "remember_token",
+                $token,
+                time() + (60*60*24*365*10),
+                "/"
+            );
+        }
+
+        if(
+            $user['role'] != 'admin'
+            &&
+            $user['first_login'] == 1
+        ){
             header("Location: first_login.php");
             exit();
         }
 
-        switch ($user['role']) {
+        switch($user['role']){
 
             case 'admin':
                 header("Location: ../admin/dashboard.php");
@@ -56,9 +77,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 break;
         }
 
+        exit();
+
     } else {
 
-        echo "Invalid username or password.";
+        echo "Invalid Username or Password";
 
     }
 
