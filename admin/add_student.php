@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $firstname = strtolower($nameParts[0]);
 
     // username example: MCC@juan345
-    $username = "MCC@" . $firstname . substr($student_id, -3);
+    $username = "MCC@" . strtolower($firstname);
 
     // password = last 5 digits of student ID
     $default_password = substr(str_replace("-", "", $student_id), -5);
