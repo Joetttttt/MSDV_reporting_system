@@ -1,5 +1,4 @@
 
-
 CREATE TABLE `notifications` (
   `id` int(11) NOT NULL,
   `type` varchar(50) NOT NULL,
