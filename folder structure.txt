@@ -11,7 +11,6 @@ MSDV_Reporting_System/
 │   │   
 │   │
 │   ├── js/
-
 │   │   ├── chart.js
 │   │   ├── signature_pad.js
 │   │   └── camera.js
