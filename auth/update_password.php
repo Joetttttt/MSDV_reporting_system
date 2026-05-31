@@ -10,10 +10,10 @@ if(!isset($_SESSION['user_id'])){
 }
 
 $new_password =
-    $_POST['new_password'];
+$_POST['new_password'];
 
 $confirm_password =
-    $_POST['confirm_password'];
+$_POST['confirm_password'];
 
 if($new_password != $confirm_password){
 
@@ -22,27 +22,25 @@ if($new_password != $confirm_password){
 }
 
 $user_id =
-    $_SESSION['user_id'];
+$_SESSION['user_id'];
 
 $password =
-    md5($new_password);
+md5($new_password);
 
-$sql =
-"UPDATE users
- SET password='$password',
- first_login=0
- WHERE id='$user_id'";
+mysqli_query(
+    $conn,
+    "UPDATE users
+     SET password='$password',
+         first_login=0
+     WHERE id='$user_id'"
+);
 
-if(mysqli_query($conn,$sql)){
+session_destroy();
 
-    session_destroy();
-
-    echo "
-    <script>
-        alert('Password changed successfully. Login again.');
-        window.location='login.php';
-    </script>
-    ";
-
-}
+echo "
+<script>
+alert('Password changed successfully. Please login again.');
+window.location='login.php';
+</script>
+";
 ?>
