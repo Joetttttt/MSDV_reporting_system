@@ -1,0 +1,101 @@
+its okay if there is no style yet okay? so first is lets have the log in page it is rolebased any one can log in to it so the input is only the username and password then the log in button and a remember me nothing else take note that iwant if they logged in to the system with there accounts they wont be autologged out then lets start from the admin first once it is logged in as admin it will go to the admin dashboard inside it there are 4 cards in the top the total students total violation pending sanctions and completed cases then below that there will be the charts the first is the violation per month it must be bar chart then second is the monthly minor vs major violation(offense type break down per month(major is red and minor is blue)) next is the violation by department School of technology is red school of education is blue then school of business is orange then next is violation by course same as the department red color scheme for SOT related courses then blue color scheme is for SOE then Orange or SOB the recent  chart must have there own filter which is year and i want it working then the last chart is specific violation by department so the filter for that is the year and the violation which i will talk about later so inside the chart there is 3 line chart each so 1 for SOT 1 for SOB 1 for SOE then the next tab or page is student records in here there will be a add student button so the admin can add students there is also search and filter operation which it can be seach by id (take note apply this to all studnet id related if 223 after the first 3 numbers there is automatic dash - then the limit of the number is only 9 including the dash) then in the filter it must filter by course by year level and by department then there is a reset button to reset the seach and filter then in the main records the student records must contain table inside the table is the student id full name course year level department risk level which i will talk about later  then there is a button every student called view so it allows the admin to view students if the view is pressed it will show a pop up modal and it will show the student information then below that there is the violation records if there is inside the there is the date of the violation category or the type of violation(minor or major) then the violation then the description then the status  and the sanction if that specific violation it will redirect to the violation records which i will talk about after this then inside the modal there must be 2 buttons edit student and delete student if the edit is clicked it will show pop up modal and allow the admin to edit the students information then if the delete button is clicked it will show another pop up modal and ask a deletion password to confirm deletion this is to keep the data safe for deletion once deleted there is a  notification successfully deleted then next lets proceed to violation record in this part it will show all the violaiton record of the student this is connected to the student records what once clicked it will redirect to this page then there is also seach and filter in here it can be seached  by name the category(major or minor) then the status of the violation this must be connected to the disciplinary action that i will talk later on then the reset button same function as the studnet records then inisde the violation records table is the studnet id full name category, violation, date then the tally in the tally section it must be in box then if the violation is minor it will have 5 box it will fill every time new violation comes and for major is red then next is the status which is connected to the disciplinary action later on then there is another view button and once clicked there is a pup up modal inisde it there is the student id full name then the violation information including the status the date submitted(it will be submitted by the jassu csu or teacher)  then the report info it will show the name of the reporter and the role of the reporter then next is the evidence of the violation then next is student verification related so there will be camera capture and e signature then the last part there is also a delete button and it ask a deletion password then next is the Disciplinary action inside it there is also a search and filter it can be search by name of student id and can be filtered by status then the inside of the table must be the student id full name then the sanction so basically the sanction is automattically assigned based on how many offenses they commit(First offense - verbal warning and counceling 
+
+second offense Written Warning and reflective essay 
+
+Third offense  Community service 5-10 hours and parental notification
+
+fourth offense Short term suspension 1 - 3 days and mandatory workshop
+
+fifth offense long term suspension 1 week and disciplinary probation
+
+
+
+for major offense:
+
+
+
+First offense 
+
+if Academic Dishonesty - Failing grade for the course and mandatory ethics workshop
+
+other major Offenses - Suspension (1 week to 1 month) and mandatory counceling
+
+
+
+Second offense
+
+if Academic Dishonesty - Suspension for 1 Semester
+
+other major offenses -  Suspension (1 month to 1 semester) and extended counceling
+
+
+
+third offense
+
+if Academic Dishonesty - Expulsion
+
+other major offenses - Expulsion and notification to authorities if applicable
+
+) then next is the start date so if the staus is still pending there is no start date yet if the admin update the status to pending it will start the start date then if the status is uodated into completed the end date will now appear(take note if the admin update it for example the record is still pending then he updated to ongoing, he cant put it again in pending same as the completed then if it is completed there is no button showed) then the last is the update button. (take note again the status in here must be connected in the status of the violaiton record gets?) next is the risk level indicator it is also connected  in the student records if you see the risk level in the studnet records table there will be 3 cards moderate risk high risk and critical inside the card in will show the numbers of risk then it also have a seach and filter it can search name and id then filter the risk level. inside the table it must have student id full name the minor and major tally same as the violation reports but the minor and major is different table then the risk level so moderate risk is shown when the student has 2 recent violation and high if they have 4 recent violation then critical when they have the maximum violation the next the students appeal in this tab it will show all the studnets appeal of there violation you will see the description the violation they appealed then there is a option if the students appeal is approved it will automatically  remove the specific violation record under the student id of the appeal and it will notify studnet if there appeal is approved then if rejected it will noify students and the violation remains(i will talk about the student appeal submition later on) then the data back up and export so it allows admin to back up data to excel inside the page there is a button export all data then below that there is the table of student records with its own export button if the admin wants to export specific data only in same as the violation reports disciplinary action and the risk level then the usermanagement section admin will be default to user:admin password:admin123 so dont show the account of admin in the usermanagement and also admin account is only one just create me another page that not connected to the system for the change pass of the admin, lets proceed inside is the add user button allows admin to add user base on the role so the roles are studen csu jassu and teacher once add user is clicked it will show pop up modal then input the fullname username email and password then confirm password then the role then save after that inside the usermanagement there is a table if all user it has also seach and filter to search name and filter role then inside the table there must be full name username email and role then actions in the actions there are 3 buttons edit change password and delete for the delete it also ask for deletetion password then next is logout
+
+
+
+now lets proceed to other roles so the teacher csu jassu has the same function it is to report student if they commited violation. inside this if the admin created accout that matches there roles in there first log in there is a pop up modal that allow them to change there password once change they will be logged out again to input there new password then inside the teacher csu jassu panel is the report form in the report form there is a input they will only input students id and the students information (student name course year lvl and department) then next is the violation details there is 2 category the minor and major if minor is clicked it will show only the minor violation and if it is major then major violations only(these are the violations Minor Offenses:
+
+
+
+Disruptive Behavior
+
+Littering
+
+Dress Code
+
+Unapproved Absences
+
+Inappropriate Language
+
+Unauthorized Use of College Property
+
+Smoking on Campus
+
+Failure to Display ID
+
+Noise Violations
+
+Minor Vandalism
+
+
+
+Major Offenses:
+
+
+
+Academic Dishonesty
+
+Theft
+
+Physical Violence
+
+Substance Abuse
+
+Harassment
+
+Unauthorized Entry
+
+Forgery
+
+Moral Infractions
+
+Weapons Possession
+
+Cyber Bullying
+
+Hazing
+
+Major Dishonesty
+
+Extortion
+
+Sexual Misconduct
+
+ ) then next is the description of the violation it allows reporter to put addtional details in text then now the evidence in evidence they will choose to upload image or take a photo then next is the student verification we have camera capture and e signature for the camera capture there is a instruction to take photo of the student face then there is a button capture face once clicked there will be a pop up modal for the camera and a capture button once captured there is a preview and there is 2 buttons 1st is confirm and try again if try again it will capture again then if confirm it will close the pop up then save the preview image then next is the e signature then once it is all filled up there is a submit report button once clicked there is a confirmation and text saying  By submitting this report, you confirm that all information provided is accurate and truthful. then a with a button confirm once confirm it will say report has been submitted and it will go to the student dashboard which i will talk abour after this then also add a page for the csu teacher and jassu called my reports in there their reports  will store full report details next is the student dashboard for the student account it will base on the student records that exist in the admin the student that is recorded in the student record has automatically account the user name must be MCC@Firstname then the password is the last 5 digit of their student id once student is logged in it will have the save as the csu teacher and jassu change password if 1st time log in once change pass they will logged out automatically and try there new password once logged in the change password pop up will not show anymore inside the student dashboard they can see their violation then there is a action every violation button called appeal they are allowed to appeal there violation if the violation is not accurate or not really their violation in the data it will show their violation details, date type status once they click appeal there is a pop up modal contains a textbox allowing them to explain their appeal after input they will submit there appeal and there is a notifcaiton appeal reported then it stores in the admin students appeal page then next is the notification system for admin they will be notifed when there is new violation or appeal once they click the notification they will redirect on to it
