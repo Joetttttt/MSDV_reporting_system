@@ -32,6 +32,38 @@ VALUES
 )"
 );
 
+$userQuery =
+mysqli_query(
+$conn,
+"SELECT *
+FROM users
+WHERE student_id='$student_id'
+LIMIT 1"
+);
+
+$user =
+mysqli_fetch_assoc(
+$userQuery
+);
+
+mysqli_query(
+$conn,
+"INSERT INTO notifications
+(
+user_id,
+title,
+message,
+notification_type
+)
+VALUES
+(
+'".$user['user_id']."',
+'New Disciplinary Action',
+'You have been assigned a disciplinary action.',
+'Sanction'
+)"
+);
+
 echo "success";
 
 ?>
