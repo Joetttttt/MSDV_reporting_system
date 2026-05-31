@@ -1,21 +1,24 @@
 <?php
-
 include("../config/auth.php");
 
 if($_SESSION['role'] != 'teacher'){
     header("Location: ../auth/login.php");
     exit();
 }
-
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher Dashboard</title>
+</head>
+<body>
 
 <h1>Teacher Dashboard</h1>
 
-<p>
-Welcome
-<?php echo $_SESSION['fullname']; ?>
-</p>
+<p>Welcome <?php echo $_SESSION['fullname']; ?></p>
 
-<a href="../auth/logout.php">
-Logout
-</a>
+<a href="../auth/logout.php">Logout</a>
+
+</body>
+</html>
