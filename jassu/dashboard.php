@@ -2,5 +2,5 @@
 
 require_once "../config/auth.php";
 
-echo "<h1>JASSU Dashboard</h1>";
+echo "<h1>Student Dashboard</h1>";
 ?>
