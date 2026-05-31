@@ -1,13 +1,13 @@
 <?php
 
 $host = "localhost";
-$user = "root";
+$username = "root";
 $password = "";
 $database = "mcc_discipline_system";
 
 $conn = mysqli_connect(
     $host,
-    $user,
+    $username,
     $password,
     $database
 );
