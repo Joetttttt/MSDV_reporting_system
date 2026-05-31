@@ -2,7 +2,7 @@
 
 include("../config/auth.php");
 
-if($_SESSION['role'] != 'j'){
+if($_SESSION['role'] != 'jas'){
     header("Location: ../auth/login.php");
     exit();
 }
