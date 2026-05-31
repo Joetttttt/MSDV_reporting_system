@@ -1,0 +1,92 @@
+MSDV_Reporting_System/
+│
+├── index.php
+├── logout.php
+│
+├── assets/
+│   ├── css/
+│   │   ├── bootstrap.min.css
+│   │   ├── admin.css
+│   │   ├── reporter.css
+│   │   └── student.css
+│   │
+│   ├── js/
+│   │   ├── bootstrap.bundle.min.js
+│   │   ├── chart.js
+│   │   ├── signature_pad.js
+│   │   └── camera.js
+│   │
+│   ├── images/
+│   │
+│   ├── uploads/
+│   │   ├── evidence/
+│   │   ├── face_capture/
+│   │   └── signatures/
+│
+├── config/
+│   ├── database.php
+│   ├── auth.php
+│   ├── session.php
+│   └── functions.php
+│
+├── includes/
+│   ├── header.php
+│   ├── footer.php
+│   ├── navbar.php
+│   └── notifications.php
+│
+├── admin/
+│   │
+│   ├── dashboard.php
+│   ├── student_records.php
+│   ├── violation_records.php
+│   ├── disciplinary_actions.php
+│   ├── risk_levels.php
+│   ├── student_appeals.php
+│   ├── backup_export.php
+│   ├── user_management.php
+│   ├── change_admin_password.php
+│   │
+│   └── includes/
+│       ├── sidebar.php
+│       └── topbar.php
+│
+├── teacher/
+│   ├── dashboard.php
+│   ├── report_violation.php
+│   ├── my_reports.php
+│   └── includes/
+│       └── sidebar.php
+│
+├── csu/
+│   ├── dashboard.php
+│   ├── report_violation.php
+│   ├── my_reports.php
+│   └── includes/
+│       └── sidebar.php
+│
+├── jassu/
+│   ├── dashboard.php
+│   ├── report_violation.php
+│   ├── my_reports.php
+│   └── includes/
+│       └── sidebar.php
+│
+├── student/
+│   ├── dashboard.php
+│   ├── appeals.php
+│   ├── notifications.php
+│   └── includes/
+│       └── sidebar.php
+│
+├── ajax/
+│   ├── get_student.php
+│   ├── save_report.php
+│   ├── update_status.php
+│   ├── save_appeal.php
+│   ├── get_notifications.php
+│   └── mark_notification.php
+│
+└── exports/
+    ├── excel/
+    └── backups/
