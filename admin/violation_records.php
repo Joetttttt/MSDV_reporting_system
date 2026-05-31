@@ -176,12 +176,10 @@ strtotime($row['submitted_at'])
 <td>
 
 <button
-class="btn btn-info btn-sm"
+class="btn btn-success btn-sm"
 data-bs-toggle="modal"
-data-bs-target="#viewModal<?php echo $row['report_id']; ?>">
-
-View
-
+data-bs-target="#actionModal<?php echo $row['report_id']; ?>">
+Create Action
 </button>
 
 
