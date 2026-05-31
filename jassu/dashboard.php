@@ -1,5 +1,6 @@
 <?php
-include("../config/session.php");
-?>
 
-<h1>JASSU Dashboard</h1>
+require_once "../config/auth.php";
+
+echo "<h1>JASSU Dashboard</h1>";
+?>
