@@ -6,7 +6,7 @@ MSDV_Reporting_System/
 ├── assets/
 │   ├── css/
 │   │   ├
-│   │   ├── admin.cs
+│   │   ├── admin.c
 │   │   
 │   │   └── student.css
 │   │
