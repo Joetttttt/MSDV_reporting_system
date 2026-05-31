@@ -5,7 +5,7 @@ MSDV_Reporting_System/
 │
 ├── assets/
 │   ├── css/
-│   │   └── styl;e.css
+│   │   └── styl.css
 │   │   
 │   │   
 │   │   
