@@ -55,8 +55,7 @@ MSDV_Reporting_System/
 │   ├── dashboard.php
 │   ├── report_violation.php
 │   ├── my_reports.php
-│   └── includes/
-│       └── sidebar.php
+│   └── 
 │
 ├── csu/
 │   ├── dashboard.php
