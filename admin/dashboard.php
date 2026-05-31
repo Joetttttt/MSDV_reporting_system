@@ -15,6 +15,8 @@ include("../config/auth.php");
 Welcome,
 <?php echo $_SESSION['fullname']; ?>
 </p>
-
+<a href="../auth/logout.php">
+    Logout
+</a>
 </body>
 </html>
