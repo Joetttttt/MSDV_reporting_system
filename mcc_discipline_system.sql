@@ -1,32 +1,4 @@
--- phpMyAdmin SQL Dump
--- version 4.9.0.1
--- https://www.phpmyadmin.net/
---
--- Host: sql112.infinityfree.com
--- Generation Time: May 31, 2026 at 11:00 AM
--- Server version: 11.4.11-MariaDB
--- PHP Version: 7.2.22
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `if0_42026058_mcc_discipline_system`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `notifications`
---
 
 CREATE TABLE `notifications` (
   `id` int(11) NOT NULL,
