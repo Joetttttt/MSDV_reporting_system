@@ -73,7 +73,7 @@ MSDV_Reporting_System/
 │   ├── dashboard.php
 │   ├── appeals.php
 │   ├── notifications.php
-│  
+│ 
 │
 ├── ajax/
 │   ├── get_student.php
