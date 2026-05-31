@@ -1,12 +1,10 @@
 <?php
 
-require_once "../config/auth.php";
+require_once "../config/database.php";
+require_once "../config/session.php";
 
-echo "<h1>Admin Dashboard</h1>";
-
-echo "Welcome " . $_SESSION['fullname'];
-
-echo "<br><br>";
-
-echo "<a href='../logout.php'>Logout</a>";
-?>
+if(!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin')
+{
+    header("Location: ../index.php");
+    exit();
+}
