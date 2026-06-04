@@ -1,7 +1,7 @@
 CREATE DATABASE mdsv_reporting_system;
 USE mdsv_reporting_system;
 
--- USERS TABLE (admin, teacher, csu, jassu, student)
+-- USERS TABLE
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   full_name VARCHAR(100) NOT NULL,
@@ -38,16 +38,14 @@ INSERT INTO courses (name, department_id) VALUES
 ('BSED(English)', 2), ('BSED(Filipino)', 2), ('BSED(Mathematics)', 2), ('BEED(Elementary Education)', 2),
 ('BSBA(HRM)', 3), ('BSBA(MM)', 3);
 
-
--- STUDENTS
+-- STUDENTS (student_id is now the PRIMARY KEY)
 CREATE TABLE students (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  student_id VARCHAR(20) UNIQUE NOT NULL,
+  student_id VARCHAR(20) PRIMARY KEY,
   full_name VARCHAR(100) NOT NULL,
   course_id INT,
   year_level INT,
   department_id INT,
-  user_id INT,
+  user_id INT UNIQUE,
   FOREIGN KEY (course_id) REFERENCES courses(id),
   FOREIGN KEY (department_id) REFERENCES departments(id),
   FOREIGN KEY (user_id) REFERENCES users(id)
@@ -66,19 +64,21 @@ CREATE TABLE violations (
   signature_path VARCHAR(255),
   status ENUM('pending','ongoing','completed') DEFAULT 'pending',
   date_submitted TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (student_id) REFERENCES students(student_id),
   FOREIGN KEY (reporter_id) REFERENCES users(id)
 );
 
 -- DISCIPLINARY ACTIONS
 CREATE TABLE disciplinary_actions (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  violation_id INT NOT NULL,
+  violation_id INT NOT NULL UNIQUE,
   student_id VARCHAR(20) NOT NULL,
   sanction TEXT NOT NULL,
   status ENUM('pending','ongoing','completed') DEFAULT 'pending',
   start_date DATE,
   end_date DATE,
-  FOREIGN KEY (violation_id) REFERENCES violations(id)
+  FOREIGN KEY (violation_id) REFERENCES violations(id),
+  FOREIGN KEY (student_id) REFERENCES students(student_id)
 );
 
 -- STUDENT APPEALS
@@ -89,7 +89,8 @@ CREATE TABLE appeals (
   explanation TEXT NOT NULL,
   status ENUM('pending','approved','rejected') DEFAULT 'pending',
   submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (violation_id) REFERENCES violations(id)
+  FOREIGN KEY (violation_id) REFERENCES violations(id),
+  FOREIGN KEY (student_id) REFERENCES students(student_id)
 );
 
 -- NOTIFICATIONS
@@ -105,7 +106,7 @@ CREATE TABLE notifications (
 
 -- DEFAULT ADMIN
 INSERT INTO users (full_name, username, email, password, role, is_first_login)
-VALUES ('Administrator', 'admin', 'admin@mcc.edu', 
-        '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 
+VALUES ('Administrator', 'admin', 'admin@mcc.edu',
+        '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
         'admin', 0);
--- default password is: admin123 (bcrypt hashed)
+-- default password: admin123
