@@ -4,7 +4,7 @@ const urlsToCache = [
     './',
     './index.html',
     './manifest.json',
-    './images/mccLo.png',
+    './images/mccLogo.png',
     './images/icon-512.png'
 ];
 
