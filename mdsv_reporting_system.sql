@@ -1,4 +1,4 @@
-CREATE DATABASE disciplinary_db;
+CREATE DATABASE mdsv_reporting_system;
 USE disciplinary_db;
 
 -- USERS TABLE (admin, teacher, csu, jassu, student)
