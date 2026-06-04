@@ -1,41 +1,22 @@
-const CACHE_NAME = 'mdsv-v1';
-
-const urlsToCache = [
-    './',
-    './index.html',
-    './manifest.json',
-    './images/mccLogo192.png',
-    './images/mccLogo512.png'
-];
-
-self.addEventListener('install', event => {
-
-    event.waitUntil(
-
-        caches.open(CACHE_NAME)
-
-        .then(cache => {
-
-            return cache.addAll(urlsToCache);
-
-        })
-
-    );
-
-});
-
-self.addEventListener('fetch', event => {
-
-    event.respondWith(
-
-        caches.match(event.request)
-
-        .then(response => {
-
-            return response || fetch(event.request);
-
-        })
-
-    );
-
-});
+{
+  "name": "MDSV Reporting System",
+  "short_name": "MDSV",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0d6efd",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "images/mccLogo192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/mccLogo512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
