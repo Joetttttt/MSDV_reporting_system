@@ -1,10 +1,41 @@
 const CACHE_NAME = 'mdsv-v1';
-const urlsToCache = ['/mdsv_reporting_system/index.html'];
 
-self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache)));
+const urlsToCache = [
+    './',
+    './index.html',
+    './manifest.json',
+    './images/icon-192.png',
+    './images/icon-512.png'
+];
+
+self.addEventListener('install', event => {
+
+    event.waitUntil(
+
+        caches.open(CACHE_NAME)
+
+        .then(cache => {
+
+            return cache.addAll(urlsToCache);
+
+        })
+
+    );
+
 });
 
-self.addEventListener('fetch', e => {
-  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+self.addEventListener('fetch', event => {
+
+    event.respondWith(
+
+        caches.match(event.request)
+
+        .then(response => {
+
+            return response || fetch(event.request);
+
+        })
+
+    );
+
 });
