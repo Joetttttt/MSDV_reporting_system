@@ -1,5 +1,5 @@
 const CACHE_NAME = 'mdsv-v1';
-const urlsToCache = ['/mdsv_reporting_system/index.'];
+const urlsToCache = ['/mdsv_reporting_system/index.html'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache)));
