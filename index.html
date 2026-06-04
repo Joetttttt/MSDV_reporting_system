@@ -3,20 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MDSV - Login</title>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<title>MDSV Reporting System</title>
 
 <link rel="manifest" href="manifest.json">
+
 <meta name="theme-color" content="#0d6efd">
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
 <script>
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js');
+    window.addEventListener('load', () => {
+        navigator.serviceWorker
+            .register('./service-worker.js')
+            .then(reg => console.log('Service Worker Registered'))
+            .catch(err => console.log(err));
+    });
 }
 </script>
-</head>
 
+<style>
+.install-btn{
+    display:none;
+}
+</style>
+
+</head>
 <body class="bg-light">
 
 <div class="container">
@@ -26,11 +40,17 @@ if ('serviceWorker' in navigator) {
             <div class="card shadow">
                 <div class="card-body p-4">
 
-                    <h4 class="text-center mb-1">
+                    <div class="text-center mb-3">
+                        <img src="images/icon-192.png"
+                             width="80"
+                             class="img-fluid">
+                    </div>
+
+                    <h4 class="text-center">
                         MDSV Reporting System
                     </h4>
 
-                    <p class="text-center text-muted small mb-4">
+                    <p class="text-center text-muted">
                         Mindanao Colleges
                     </p>
 
@@ -45,8 +65,7 @@ if ('serviceWorker' in navigator) {
                                 type="text"
                                 name="username"
                                 class="form-control"
-                                required
-                                autofocus>
+                                required>
                         </div>
 
                         <div class="mb-3">
@@ -64,7 +83,6 @@ if ('serviceWorker' in navigator) {
                         <div class="mb-3 form-check">
                             <input
                                 type="checkbox"
-                                name="remember_me"
                                 class="form-check-input"
                                 id="rememberMe">
 
@@ -83,12 +101,50 @@ if ('serviceWorker' in navigator) {
 
                     </form>
 
+                    <button
+                        id="installBtn"
+                        class="btn btn-success w-100 mt-3 install-btn">
+                        Install App
+                    </button>
+
                 </div>
             </div>
 
         </div>
     </div>
 </div>
+
+<script>
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+
+    e.preventDefault();
+
+    deferredPrompt = e;
+
+    const installBtn =
+        document.getElementById('installBtn');
+
+    installBtn.style.display = 'block';
+
+    installBtn.addEventListener('click', async () => {
+
+        installBtn.style.display = 'none';
+
+        deferredPrompt.prompt();
+
+        const { outcome } =
+            await deferredPrompt.userChoice;
+
+        console.log(outcome);
+
+        deferredPrompt = null;
+
+    });
+
+});
+</script>
 
 </body>
 </html>
