@@ -144,4 +144,268 @@ if (empty($years)) $years = [date('Y')];
   <div class="collapse" id="mobileSidebar">
     <ul class="nav flex-column mt-2">
       <li><a class="nav-link" href="dashboard.php">Dashboard</a></li>
-      <li><a class="nav-link" href="student-records.php">Student Records</a></li
+      <li><a class="nav-link" href="student-records.php">Student Records</a></li>
+      <li><a class="nav-link" href="violation-records.php">Violation Records</a></li>
+      <li><a class="nav-link" href="disciplinary-action.php">Disciplinary Action</a></li>
+      <li><a class="nav-link" href="risk-level.php">Risk Level</a></li>
+      <li><a class="nav-link" href="student-appeals.php">Student Appeals</a></li>
+      <li><a class="nav-link" href="data-backup.php">Data Backup</a></li>
+      <li><a class="nav-link" href="user-management.php">User Management</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="col-md-10 ms-sm-auto px-4 py-3">
+  <h5 class="mb-3">Dashboard</h5>
+
+  <!-- 4 CARDS -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="card text-white bg-primary">
+        <div class="card-body">
+          <div class="small">Total Students</div>
+          <h3><?= $totalStudents ?></h3>
+          <i class="bi bi-people fs-4"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card text-white bg-danger">
+        <div class="card-body">
+          <div class="small">Total Violations</div>
+          <h3><?= $totalViolations ?></h3>
+          <i class="bi bi-exclamation-triangle fs-4"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card text-white bg-warning">
+        <div class="card-body">
+          <div class="small">Pending Sanctions</div>
+          <h3><?= $pendingSanctions ?></h3>
+          <i class="bi bi-hourglass-split fs-4"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card text-white bg-success">
+        <div class="card-body">
+          <div class="small">Completed Cases</div>
+          <h3><?= $completedCases ?></h3>
+          <i class="bi bi-check-circle fs-4"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHART ROW 1 -->
+  <div class="row g-3 mb-3">
+    <div class="col-md-6">
+      <div class="card p-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <strong>Violations Per Month</strong>
+          <select class="form-select form-select-sm w-auto" onchange="updateVPM(this.value)">
+            <?php foreach($years as $y): ?>
+            <option value="<?=$y?>" <?=$y==$currentYear?'selected':''?>><?=$y?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <canvas id="vpmChart"></canvas>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card p-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <strong>Minor vs Major Per Month</strong>
+          <select class="form-select form-select-sm w-auto" onchange="updateMVM(this.value)">
+            <?php foreach($years as $y): ?>
+            <option value="<?=$y?>" <?=$y==$currentYear?'selected':''?>><?=$y?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <canvas id="mvmChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHART ROW 2 -->
+  <div class="row g-3 mb-3">
+    <div class="col-md-6">
+      <div class="card p-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <strong>Violations by Department</strong>
+          <select class="form-select form-select-sm w-auto" onchange="updateDept(this.value)">
+            <?php foreach($years as $y): ?>
+            <option value="<?=$y?>" <?=$y==$currentYear?'selected':''?>><?=$y?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <canvas id="deptChart"></canvas>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card p-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <strong>Violations by Course</strong>
+          <select class="form-select form-select-sm w-auto" onchange="updateCourse(this.value)">
+            <?php foreach($years as $y): ?>
+            <option value="<?=$y?>" <?=$y==$currentYear?'selected':''?>><?=$y?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <canvas id="courseChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHART ROW 3: Specific Violation by Dept (Line) -->
+  <div class="row g-3 mb-3">
+    <div class="col-12">
+      <div class="card p-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-2 gap-2">
+          <strong>Specific Violation by Department</strong>
+          <div class="d-flex gap-2">
+            <select class="form-select form-select-sm w-auto" id="svYear" onchange="updateSV()">
+              <?php foreach($years as $y): ?>
+              <option value="<?=$y?>" <?=$y==$currentYear?'selected':''?>><?=$y?></option>
+              <?php endforeach; ?>
+            </select>
+            <select class="form-select form-select-sm w-auto" id="svViolation" onchange="updateSV()">
+              <?php foreach($violations_list as $vl): ?>
+              <option value="<?= htmlspecialchars($vl) ?>"><?= htmlspecialchars($vl) ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+        </div>
+        <canvas id="svChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+// --- VPM Chart ---
+let vpmChart = new Chart(document.getElementById('vpmChart'), {
+  type: 'bar',
+  data: {
+    labels: months,
+    datasets: [{
+      label: 'Violations',
+      data: <?= json_encode(array_values($vpmData)) ?>,
+      backgroundColor: '#0d6efd'
+    }]
+  },
+  options: { responsive: true, plugins: { legend: { display: false } } }
+});
+
+function updateVPM(year) {
+  fetch('ajax/chart-data.php?type=vpm&year=' + year)
+    .then(r => r.json()).then(d => { vpmChart.data.datasets[0].data = d; vpmChart.update(); });
+}
+
+// --- MVM Chart ---
+let mvmChart = new Chart(document.getElementById('mvmChart'), {
+  type: 'bar',
+  data: {
+    labels: months,
+    datasets: [
+      { label: 'Minor', data: <?= json_encode(array_values($minorData)) ?>, backgroundColor: '#0d6efd' },
+      { label: 'Major', data: <?= json_encode(array_values($majorData)) ?>, backgroundColor: '#dc3545' }
+    ]
+  },
+  options: { responsive: true }
+});
+
+function updateMVM(year) {
+  fetch('ajax/chart-data.php?type=mvm&year=' + year)
+    .then(r => r.json()).then(d => {
+      mvmChart.data.datasets[0].data = d.minor;
+      mvmChart.data.datasets[1].data = d.major;
+      mvmChart.update();
+    });
+}
+
+// --- Dept Chart ---
+let deptChart = new Chart(document.getElementById('deptChart'), {
+  type: 'bar',
+  data: {
+    labels: <?= json_encode($deptLabels) ?>,
+    datasets: [{ label: 'Violations', data: <?= json_encode($deptData) ?>, backgroundColor: <?= json_encode($deptColors) ?> }]
+  },
+  options: { responsive: true, plugins: { legend: { display: false } } }
+});
+
+function updateDept(year) {
+  fetch('ajax/chart-data.php?type=dept&year=' + year)
+    .then(r => r.json()).then(d => {
+      deptChart.data.labels = d.labels;
+      deptChart.data.datasets[0].data = d.data;
+      deptChart.data.datasets[0].backgroundColor = d.colors;
+      deptChart.update();
+    });
+}
+
+// --- Course Chart ---
+let courseChart = new Chart(document.getElementById('courseChart'), {
+  type: 'bar',
+  data: {
+    labels: <?= json_encode($courseLabels) ?>,
+    datasets: [{ label: 'Violations', data: <?= json_encode($courseData) ?>, backgroundColor: <?= json_encode($courseColors) ?> }]
+  },
+  options: { responsive: true, plugins: { legend: { display: false } } }
+});
+
+function updateCourse(year) {
+  fetch('ajax/chart-data.php?type=course&year=' + year)
+    .then(r => r.json()).then(d => {
+      courseChart.data.labels = d.labels;
+      courseChart.data.datasets[0].data = d.data;
+      courseChart.data.datasets[0].backgroundColor = d.colors;
+      courseChart.update();
+    });
+}
+
+// --- Specific Violation by Dept (Line) ---
+let svChart = new Chart(document.getElementById('svChart'), {
+  type: 'line',
+  data: {
+    labels: months,
+    datasets: [
+      { label: 'SOT', data: Array(12).fill(0), borderColor: '#dc3545', fill: false },
+      { label: 'SOE', data: Array(12).fill(0), borderColor: '#0d6efd', fill: false },
+      { label: 'SOB', data: Array(12).fill(0), borderColor: '#fd7e14', fill: false }
+    ]
+  },
+  options: { responsive: true }
+});
+
+function updateSV() {
+  const year = document.getElementById('svYear').value;
+  const viol = document.getElementById('svViolation').value;
+  fetch('ajax/chart-data.php?type=sv&year=' + year + '&violation=' + encodeURIComponent(viol))
+    .then(r => r.json()).then(d => {
+      svChart.data.datasets[0].data = d.sot;
+      svChart.data.datasets[1].data = d.soe;
+      svChart.data.datasets[2].data = d.sob;
+      svChart.update();
+    });
+}
+
+// Load initial SV chart
+updateSV();
+
+// Mark notification read
+function markRead(id) {
+  fetch('ajax/notifications.php?action=read&id=' + id);
+}
+</script>
+</body>
+</html>
