@@ -1,7 +1,7 @@
 {
   "name": "MDSV Reporting System",
   "short_name": "MDSV",
-  "start_url": "/mdsv_reporting_system/index.ph",
+  "start_url": "/mdsv_reporting_system/index.p",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#0d6efd",
