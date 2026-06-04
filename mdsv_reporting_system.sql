@@ -34,7 +34,7 @@ CREATE TABLE courses (
 );
 
 INSERT INTO courses (name, department_id) VALUES
-('BSIT(Infotech)', 1), ('BIT(Comptech)', 1), ('BIT(Ee)', 1),
+('BSIT(Infotech)', 1), ('BIT(Comptech)', 1), ('BIT(Elect)', 1),
 ('BSED', 2), ('BEED', 2),
 ('BSBA', 3), ('BSA', 3);
 
