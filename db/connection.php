@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'disciplinary_db';
+$dbname = 'mdsv_reporting_system';
 $username = 'root';
 $password = '';
 
