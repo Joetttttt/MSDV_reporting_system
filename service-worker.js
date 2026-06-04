@@ -19,4 +19,25 @@
       "type": "image/png"
     }
   ]
+}{
+  "name": "MDSV Reporting System",
+  "short_name": "MDSV",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0d6efd",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "images/mccLogo192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/mccLogo512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
