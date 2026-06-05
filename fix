@@ -14,6 +14,6 @@ inside the user-management i want you to separate the student accounts and remov
 
 then in the student records if the id is input again even if it exist say a error message that this id is already taken
 
-then in the install instead of poping up as a button below the log in make it an alert or the browser must say install ap
+then in the install instead of poping up as a button below the log in make it an alert or the browser must say install app
 
 
