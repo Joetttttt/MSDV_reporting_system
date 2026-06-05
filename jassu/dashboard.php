@@ -119,7 +119,7 @@ window.addEventListener('load', () => {
   <div class="table-responsive">
   <table class="table table-sm table-bordered">
     <thead class="table-dark"><tr><th>Student</th><th>Violation</th><th>Type</th><th>Status</th><th>Date</th></tr></thead>
-    <tbody>
+    <tbody>a
     <?php foreach($recentReports as $r): ?>
     <tr>
       <td><?= htmlspecialchars($r['full_name']) ?></td>
