@@ -3,148 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>MDSV Reporting System</title>
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <link rel="manifest" href="manifest.json">
-
 <meta name="theme-color" content="#0d6efd">
-
-<link rel="stylesheet"
-href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
 <script>
+// PWA - let browser handle install natively in address bar
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker
-            .register('./service-worker.js')
-            .then(reg => console.log('Service Worker Registered'))
-            .catch(err => console.log(err));
-    });
+    navigator.serviceWorker.register('service-worker.js');
 }
+// Do NOT call preventDefault on beforeinstallprompt
+// This lets Chrome/Edge show the install icon in the address bar automatically
+window.addEventListener('beforeinstallprompt', function(e) {
+    // intentionally empty - browser shows native install prompt in address bar
+});
 </script>
-
-<style>
-.install-btn{
-    display:none;
-}
-</style>
-
 </head>
 <body class="bg-light">
 
 <div class="container">
-    <div class="row justify-content-center align-items-center min-vh-100">
-        <div class="col-md-4 col-sm-8 col-11">
+  <div class="row justify-content-center align-items-center min-vh-100">
+    <div class="col-md-4 col-sm-8 col-11">
 
-            <div class="card shadow">
-                <div class="card-body p-4">
+      <!-- Logged out message -->
+      <div id="logoutBox" class="alert alert-info d-none py-2">
+        <i class="bi bi-box-arrow-left"></i> You have been logged out successfully.
+      </div>
 
-                    <div class="text-center mb-3">
-                        <img src="images/mccLogo.png"
-                             width="80"
-                             class="img-fluid">
-                    </div>
+      <!-- Error message -->
+      <div id="errorBox" class="alert alert-danger d-none py-2">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span id="errorText"></span>
+      </div>
 
-                    <h4 class="text-center">
-                        MDSV Reporting System
-                    </h4>
+      <div class="card shadow">
+        <div class="card-body p-4">
+          <h4 class="text-center mb-1">MDSV Reporting System</h4>
+          <p class="text-center text-muted small mb-4">Mindanao Colleges</p>
 
-                    <p class="text-center text-muted">
-                        Mindanao Colleges
-                    </p>
-
-                    <form method="POST" action="login.php">
-
-                        <div class="mb-3">
-                            <label class="form-label">
-                                Username
-                            </label>
-
-                            <input
-                                type="text"
-                                name="username"
-                                class="form-control"
-                                required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">
-                                Password
-                            </label>
-
-                            <input
-                                type="password"
-                                name="password"
-                                class="form-control"
-                                required>
-                        </div>
-
-                        <div class="mb-3 form-check">
-                            <input
-                                type="checkbox"
-                                class="form-check-input"
-                                id="rememberMe">
-
-                            <label
-                                class="form-check-label"
-                                for="rememberMe">
-                                Remember Me
-                            </label>
-                        </div>
-
-                        <button
-                            type="submit"
-                            class="btn btn-primary w-100">
-                            Log In
-                        </button>
-
-                    </form>
-
-                    <button
-                        id="installBtn"
-                        class="btn btn-success w-100 mt-3 install-btn">
-                        Install App
-                    </button>
-
-                </div>
+          <form method="POST" action="login.php">
+            <div class="mb-3">
+              <label class="form-label">Username</label>
+              <input type="text" name="username" id="usernameInput"
+                     class="form-control" required autofocus>
             </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="password" name="password" id="passwordInput"
+                     class="form-control" required>
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" name="remember_me"
+                     class="form-check-input" id="rememberMe">
+              <label class="form-check-label" for="rememberMe">Remember Me</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+              <i class="bi bi-box-arrow-in-right"></i> Log In
+            </button>
+          </form>
 
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-let deferredPrompt;
+(function () {
+    const params = new URLSearchParams(window.location.search);
 
-window.addEventListener('beforeinstallprompt', (e) => {
+    // Show error message
+    const err = params.get('error');
+    if (err) {
+        document.getElementById('errorText').textContent = decodeURIComponent(err);
+        document.getElementById('errorBox').classList.remove('d-none');
+        // Highlight inputs
+        document.getElementById('usernameInput').classList.add('is-invalid');
+        document.getElementById('passwordInput').classList.add('is-invalid');
+    }
 
-    e.preventDefault();
+    // Show logged out notice
+    if (params.get('logged_out') === '1') {
+        document.getElementById('logoutBox').classList.remove('d-none');
+    }
 
-    deferredPrompt = e;
+    // Clean URL bar
+    if (err || params.get('logged_out')) {
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
 
-    const installBtn =
-        document.getElementById('installBtn');
-
-    installBtn.style.display = 'block';
-
-    installBtn.addEventListener('click', async () => {
-
-        installBtn.style.display = 'none';
-
-        deferredPrompt.prompt();
-
-        const { outcome } =
-            await deferredPrompt.userChoice;
-
-        console.log(outcome);
-
-        deferredPrompt = null;
-
+    // Clear invalid state on input
+    ['usernameInput','passwordInput'].forEach(function(id) {
+        document.getElementById(id).addEventListener('input', function() {
+            this.classList.remove('is-invalid');
+            document.getElementById('errorBox').classList.add('d-none');
+        });
     });
-
-});
+})();
 </script>
-
 </body>
 </html>
