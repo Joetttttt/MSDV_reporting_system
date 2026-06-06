@@ -2,44 +2,42 @@
 session_start();
 require_once '../db/connection.php';
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header('Location: ../index.php'); exit;
+    header('Location: ../login.php'); exit;
 }
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Pragma: no-cache");
+
+// NOTIFICATIONS
+$unreadStmt = $pdo->prepare("SELECT COUNT(*) FROM notifications WHERE user_id=? AND is_read=0");
+$unreadStmt->execute([$_SESSION['user_id']]);
+$unreadCount = (int)$unreadStmt->fetchColumn();
+$notifStmt = $pdo->prepare("SELECT * FROM notifications WHERE user_id=? ORDER BY created_at DESC LIMIT 20");
+$notifStmt->execute([$_SESSION['user_id']]);
+$notifList = $notifStmt->fetchAll();
 
 // UPDATE STATUS
 if (isset($_POST['action']) && $_POST['action'] === 'update_status') {
     $daId      = (int)$_POST['da_id'];
     $newStatus = $_POST['new_status'];
+    $flow      = ['pending'=>0,'ongoing'=>1,'completed'=>2];
 
     $curr = $pdo->prepare("SELECT * FROM disciplinary_actions WHERE id=?");
     $curr->execute([$daId]);
     $da = $curr->fetch();
 
     if ($da) {
-        $allowed = true;
-        // Status flow: pending -> ongoing -> completed (no going back)
-        $flow = ['pending'=>0,'ongoing'=>1,'completed'=>2];
         if (($flow[$newStatus] ?? -1) <= ($flow[$da['status']] ?? 0)) {
-            $allowed = false;
             $_SESSION['err'] = 'Cannot move status backwards.';
-        }
-
-        if ($allowed) {
+        } else {
             $startDate = $da['start_date'];
             $endDate   = $da['end_date'];
+            if ($newStatus === 'ongoing'   && !$startDate) $startDate = date('Y-m-d');
+            if ($newStatus === 'completed' && !$endDate)   $endDate   = date('Y-m-d');
 
-            if ($newStatus === 'ongoing' && !$startDate) {
-                $startDate = date('Y-m-d');
-            }
-            if ($newStatus === 'completed' && !$endDate) {
-                $endDate = date('Y-m-d');
-            }
-
-            $pdo->prepare("UPDATE disciplinary_actions SET status=?, start_date=?, end_date=? WHERE id=?")
-                ->execute([$newStatus, $startDate, $endDate, $daId]);
-
-            // Sync violation status
+            $pdo->prepare("UPDATE disciplinary_actions SET status=?,start_date=?,end_date=? WHERE id=?")
+                ->execute([$newStatus,$startDate,$endDate,$daId]);
             $pdo->prepare("UPDATE violations SET status=? WHERE id=?")
-                ->execute([$newStatus, $da['violation_id']]);
+                ->execute([$newStatus,$da['violation_id']]);
 
             // Notify student
             $stuUser = $pdo->prepare("SELECT u.id FROM students s JOIN users u ON s.user_id=u.id WHERE s.student_id=?");
@@ -47,33 +45,29 @@ if (isset($_POST['action']) && $_POST['action'] === 'update_status') {
             $stuRow = $stuUser->fetch();
             if ($stuRow) {
                 $pdo->prepare("INSERT INTO notifications (user_id,message,link) VALUES (?,?,?)")
-                    ->execute([$stuRow['id'], "Your disciplinary case status updated to: $newStatus", '../student/dashboard.php']);
+                    ->execute([$stuRow['id'],
+                        "Your disciplinary case status has been updated to: ".strtoupper($newStatus),
+                        '../student/dashboard.php']);
             }
-
-            $_SESSION['msg'] = 'Status updated successfully.';
+            $_SESSION['msg'] = 'Status updated to '.ucfirst($newStatus).'.';
         }
     }
     header('Location: disciplinary-action.php'); exit;
 }
 
 // SEARCH & FILTER
-$search = trim($_GET['search'] ?? '');
+$search       = trim($_GET['search'] ?? '');
 $filterStatus = $_GET['status'] ?? '';
-$where = "WHERE 1=1";
-$params = [];
-if ($search) {
-    $where .= " AND (s.full_name LIKE ? OR da.student_id LIKE ?)";
-    $params[] = "%$search%"; $params[] = "%$search%";
-}
-if ($filterStatus) { $where .= " AND da.status=?"; $params[] = $filterStatus; }
+$where  = "WHERE 1=1"; $params = [];
+if ($search)       { $where .= " AND (s.full_name LIKE ? OR da.student_id LIKE ?)"; $params[]="%$search%"; $params[]="%$search%"; }
+if ($filterStatus) { $where .= " AND da.status=?"; $params[]=$filterStatus; }
 
 $stmt = $pdo->prepare("
-    SELECT da.*, s.full_name, v.violation, v.category, v.description
+    SELECT da.*, s.full_name, v.violation, v.category
     FROM disciplinary_actions da
-    JOIN students s ON da.student_id = s.student_id
-    JOIN violations v ON da.violation_id = v.id
-    $where
-    ORDER BY da.id DESC");
+    JOIN students s ON da.student_id=s.student_id
+    JOIN violations v ON da.violation_id=v.id
+    $where ORDER BY da.id DESC");
 $stmt->execute($params);
 $daList = $stmt->fetchAll();
 ?>
@@ -82,56 +76,117 @@ $daList = $stmt->fetchAll();
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Disciplinary Action - MDSV</title>
+<title>Disciplinary Action - MDSV Admin</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 <body>
-<nav class="navbar navbar-dark bg-primary px-3">
-  <span class="navbar-brand fw-bold">MDSV Admin</span>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark bg-primary px-3 sticky-top">
   <div class="d-flex align-items-center gap-2">
-    <span class="text-white small d-none d-md-inline"><?= htmlspecialchars($_SESSION['full_name']) ?></span>
-    <a href="../logout.php" class="btn btn-outline-light btn-sm">Logout</a>
+    <button class="navbar-toggler d-md-none border-0" type="button"
+            data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <span class="navbar-brand fw-bold mb-0">
+      <i class="bi bi-shield-fill-check"></i> MDSV Admin
+    </span>
+  </div>
+  <div class="d-flex align-items-center gap-3">
+    <!-- NOTIFICATION BELL -->
+    <div class="dropdown">
+      <button class="btn btn-outline-light btn-sm position-relative"
+              data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-bell-fill"></i>
+        <?php if($unreadCount > 0): ?>
+        <span class="position-absolute top-0 start-100 translate-middle
+                     badge rounded-pill bg-danger" id="notifBadge">
+          <?= $unreadCount ?>
+        </span>
+        <?php endif; ?>
+      </button>
+      <div class="dropdown-menu dropdown-menu-end shadow p-0"
+           style="min-width:320px;max-height:400px;overflow-y:auto">
+        <div class="d-flex justify-content-between align-items-center
+                    px-3 py-2 border-bottom bg-light">
+          <strong class="small">Notifications</strong>
+          <?php if($unreadCount > 0): ?>
+          <button class="btn btn-link btn-sm p-0 text-primary small"
+                  onclick="markAllRead()">Mark all read</button>
+          <?php endif; ?>
+        </div>
+        <?php if(empty($notifList)): ?>
+        <div class="text-center text-muted py-4 small">
+          <i class="bi bi-bell-slash fs-4 d-block mb-1"></i>No notifications
+        </div>
+        <?php else: foreach($notifList as $n): ?>
+        <a class="dropdown-item py-2 border-bottom
+                  <?= $n['is_read'] ? 'text-muted' : 'bg-light fw-semibold' ?>"
+           href="<?= htmlspecialchars($n['link'] ?? '#') ?>"
+           onclick="markRead(<?= $n['id'] ?>, this); return true;">
+          <div class="small"><?= htmlspecialchars($n['message']) ?></div>
+          <div class="text-muted" style="font-size:11px">
+            <i class="bi bi-clock"></i>
+            <?= date('M d, Y h:i A', strtotime($n['created_at'])) ?>
+          </div>
+        </a>
+        <?php endforeach; endif; ?>
+      </div>
+    </div>
+    <span class="text-white small d-none d-lg-inline">
+      <i class="bi bi-person-circle"></i> <?= htmlspecialchars($_SESSION['full_name']) ?>
+    </span>
+    <a href="../logout.php" class="btn btn-outline-light btn-sm">
+      <i class="bi bi-box-arrow-right"></i>
+      <span class="d-none d-sm-inline">Logout</span>
+    </a>
   </div>
 </nav>
+
 <div class="container-fluid"><div class="row">
-<nav class="col-md-2 d-none d-md-block bg-light py-3" style="min-height:100vh">
+<!-- SIDEBAR -->
+<nav class="col-md-2 d-none d-md-block bg-light border-end py-3"
+     style="min-height:calc(100vh - 56px)">
   <ul class="nav flex-column">
-    <li><a class="nav-link" href="dashboard.php"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-    <li><a class="nav-link" href="student-records.php"><i class="bi bi-people"></i> Student Records</a></li>
-    <li><a class="nav-link" href="violation-records.php"><i class="bi bi-exclamation-triangle"></i> Violation Records</a></li>
-    <li><a class="nav-link active fw-bold" href="disciplinary-action.php"><i class="bi bi-shield-exclamation"></i> Disciplinary Action</a></li>
-    <li><a class="nav-link" href="risk-level.php"><i class="bi bi-bar-chart"></i> Risk Level</a></li>
-    <li><a class="nav-link" href="student-appeals.php"><i class="bi bi-chat-left-text"></i> Student Appeals</a></li>
-    <li><a class="nav-link" href="data-backup.php"><i class="bi bi-download"></i> Data Backup</a></li>
-    <li><a class="nav-link" href="user-management.php"><i class="bi bi-person-gear"></i> User Management</a></li>
+    <li><a class="nav-link text-dark" href="dashboard.php"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+    <li><a class="nav-link text-dark" href="student-records.php"><i class="bi bi-people me-2"></i>Student Records</a></li>
+    <li><a class="nav-link text-dark" href="violation-records.php"><i class="bi bi-exclamation-triangle me-2"></i>Violation Records</a></li>
+    <li><a class="nav-link active fw-bold text-primary" href="disciplinary-action.php"><i class="bi bi-shield-exclamation me-2"></i>Disciplinary Action</a></li>
+    <li><a class="nav-link text-dark" href="risk-level.php"><i class="bi bi-bar-chart me-2"></i>Risk Level</a></li>
+    <li><a class="nav-link text-dark" href="student-appeals.php"><i class="bi bi-chat-left-text me-2"></i>Student Appeals</a></li>
+    <li><a class="nav-link text-dark" href="data-backup.php"><i class="bi bi-download me-2"></i>Data Backup</a></li>
+    <li><a class="nav-link text-dark" href="user-management.php"><i class="bi bi-person-gear me-2"></i>User Management</a></li>
   </ul>
 </nav>
-<div class="d-md-none p-2 bg-light w-100">
-  <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#mob4"><i class="bi bi-list"></i> Menu</button>
-  <div class="collapse" id="mob4">
-    <ul class="nav flex-column mt-1">
-      <li><a class="nav-link" href="dashboard.php">Dashboard</a></li>
-      <li><a class="nav-link" href="student-records.php">Student Records</a></li>
-      <li><a class="nav-link" href="violation-records.php">Violation Records</a></li>
-      <li><a class="nav-link" href="disciplinary-action.php">Disciplinary Action</a></li>
-      <li><a class="nav-link" href="risk-level.php">Risk Level</a></li>
-      <li><a class="nav-link" href="student-appeals.php">Student Appeals</a></li>
-      <li><a class="nav-link" href="data-backup.php">Data Backup</a></li>
-      <li><a class="nav-link" href="user-management.php">User Management</a></li>
-    </ul>
-  </div>
+<div class="collapse d-md-none position-fixed w-100 bg-white border-bottom shadow"
+     id="sidebarMenu" style="z-index:1045;top:56px">
+  <ul class="nav flex-column p-2">
+    <li><a class="nav-link" href="dashboard.php"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+    <li><a class="nav-link" href="student-records.php"><i class="bi bi-people me-2"></i>Student Records</a></li>
+    <li><a class="nav-link" href="violation-records.php"><i class="bi bi-exclamation-triangle me-2"></i>Violation Records</a></li>
+    <li><a class="nav-link fw-bold text-primary" href="disciplinary-action.php"><i class="bi bi-shield-exclamation me-2"></i>Disciplinary Action</a></li>
+    <li><a class="nav-link" href="risk-level.php"><i class="bi bi-bar-chart me-2"></i>Risk Level</a></li>
+    <li><a class="nav-link" href="student-appeals.php"><i class="bi bi-chat-left-text me-2"></i>Student Appeals</a></li>
+    <li><a class="nav-link" href="data-backup.php"><i class="bi bi-download me-2"></i>Data Backup</a></li>
+    <li><a class="nav-link" href="user-management.php"><i class="bi bi-person-gear me-2"></i>User Management</a></li>
+  </ul>
 </div>
 
 <main class="col-md-10 px-3 py-3">
   <h5 class="mb-3">Disciplinary Actions</h5>
-  <?php if(isset($_SESSION['msg'])): ?><div class="alert alert-success"><?= $_SESSION['msg'] ?><?php unset($_SESSION['msg']); ?></div><?php endif; ?>
-  <?php if(isset($_SESSION['err'])): ?><div class="alert alert-danger"><?= $_SESSION['err'] ?><?php unset($_SESSION['err']); ?></div><?php endif; ?>
+
+  <?php if(isset($_SESSION['msg'])): ?>
+  <div class="alert alert-success"><?= $_SESSION['msg'] ?><?php unset($_SESSION['msg']); ?></div>
+  <?php endif; ?>
+  <?php if(isset($_SESSION['err'])): ?>
+  <div class="alert alert-danger"><?= $_SESSION['err'] ?><?php unset($_SESSION['err']); ?></div>
+  <?php endif; ?>
 
   <form method="GET" class="row g-2 mb-3">
     <div class="col-md-4 col-7">
-      <input type="text" name="search" class="form-control form-control-sm" placeholder="Search name or ID"
-             value="<?= htmlspecialchars($search) ?>">
+      <input type="text" name="search" class="form-control form-control-sm"
+             placeholder="Search name or ID" value="<?= htmlspecialchars($search) ?>">
     </div>
     <div class="col-md-2 col-5">
       <select name="status" class="form-select form-select-sm">
@@ -141,8 +196,12 @@ $daList = $stmt->fetchAll();
         <option value="completed" <?=$filterStatus==='completed'?'selected':''?>>Completed</option>
       </select>
     </div>
-    <div class="col-auto"><button type="submit" class="btn btn-primary btn-sm">Filter</button></div>
-    <div class="col-auto"><a href="disciplinary-action.php" class="btn btn-secondary btn-sm">Reset</a></div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary btn-sm">Filter</button>
+    </div>
+    <div class="col-auto">
+      <a href="disciplinary-action.php" class="btn btn-secondary btn-sm">Reset</a>
+    </div>
   </form>
 
   <div class="table-responsive">
@@ -159,22 +218,28 @@ $daList = $stmt->fetchAll();
       <td><?= htmlspecialchars($da['student_id']) ?></td>
       <td><?= htmlspecialchars($da['full_name']) ?></td>
       <td>
-        <span class="badge bg-<?= $da['category']==='minor'?'primary':'danger' ?>"><?= ucfirst($da['category']) ?></span>
+        <span class="badge bg-<?= $da['category']==='minor'?'primary':'danger' ?>">
+          <?= ucfirst($da['category']) ?>
+        </span>
         <?= htmlspecialchars($da['violation']) ?>
       </td>
       <td><small><?= htmlspecialchars($da['sanction']) ?></small></td>
       <td>
-        <span class="badge bg-<?= $da['status']==='completed'?'success':($da['status']==='ongoing'?'warning':'secondary') ?>">
+        <span class="badge bg-<?= $da['status']==='completed'?'success':
+            ($da['status']==='ongoing'?'warning':'secondary') ?>">
           <?= ucfirst($da['status']) ?>
         </span>
       </td>
       <td><?= $da['start_date'] ?? '-' ?></td>
-      <td><?= $da['end_date'] ?? '-' ?></td>
+      <td><?= $da['end_date']   ?? '-' ?></td>
       <td>
         <?php if($da['status'] !== 'completed'): ?>
-        <button class="btn btn-sm btn-primary" onclick='openUpdateStatus(<?= json_encode($da) ?>)'>Update</button>
+        <button class="btn btn-sm btn-primary"
+                onclick='openUpdateStatus(<?= json_encode($da) ?>)'>
+          <i class="bi bi-arrow-repeat"></i> Update
+        </button>
         <?php else: ?>
-        <span class="text-muted small">Done</span>
+        <span class="text-muted small"><i class="bi bi-check-all"></i> Done</span>
         <?php endif; ?>
       </td>
     </tr>
@@ -195,22 +260,22 @@ $daList = $stmt->fetchAll();
       <input type="hidden" name="action" value="update_status">
       <input type="hidden" name="da_id" id="daID">
       <div class="modal-header">
-        <h5 class="modal-title">Update Disciplinary Status</h5>
+        <h5 class="modal-title">Update Status</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        <p><strong>Student:</strong> <span id="daStudentName"></span></p>
-        <p><strong>Violation:</strong> <span id="daViolation"></span></p>
-        <p><strong>Sanction:</strong> <small id="daSanction"></small></p>
-        <p><strong>Current Status:</strong> <span id="daCurrentStatus"></span></p>
-        <div class="mb-2">
-          <label class="form-label">New Status</label>
-          <select name="new_status" id="daNewStatus" class="form-select"></select>
-        </div>
+        <table class="table table-sm mb-3">
+          <tr><th>Student</th><td id="daStudentName"></td></tr>
+          <tr><th>Violation</th><td id="daViolation"></td></tr>
+          <tr><th>Sanction</th><td><small id="daSanction"></small></td></tr>
+          <tr><th>Current Status</th><td id="daCurrentStatus"></td></tr>
+        </table>
+        <label class="form-label">New Status</label>
+        <select name="new_status" id="daNewStatus" class="form-select"></select>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="submit" class="btn btn-primary">Update Status</button>
+        <button type="submit" class="btn btn-primary">Update</button>
       </div>
     </form>
   </div>
@@ -221,21 +286,31 @@ $daList = $stmt->fetchAll();
 function openUpdateStatus(da) {
     document.getElementById('daID').value = da.id;
     document.getElementById('daStudentName').textContent = da.full_name;
-    document.getElementById('daViolation').textContent = da.violation;
-    document.getElementById('daSanction').textContent = da.sanction;
+    document.getElementById('daViolation').textContent   = da.violation;
+    document.getElementById('daSanction').textContent    = da.sanction;
     document.getElementById('daCurrentStatus').textContent = da.status;
-
-    const sel = document.getElementById('daNewStatus');
-    sel.innerHTML = '';
     const flow = {pending:0, ongoing:1, completed:2};
     const curr = flow[da.status] ?? 0;
+    const sel  = document.getElementById('daNewStatus');
+    sel.innerHTML = '';
     Object.entries(flow).forEach(([s,v]) => {
-        if (v > curr) {
-            sel.innerHTML += `<option value="${s}">${s.charAt(0).toUpperCase()+s.slice(1)}</option>`;
-        }
+        if (v > curr) sel.innerHTML +=
+            `<option value="${s}">${s.charAt(0).toUpperCase()+s.slice(1)}</option>`;
     });
-
     new bootstrap.Modal(document.getElementById('updateStatusModal')).show();
+}
+function markRead(id, el) {
+    fetch('ajax/notifications.php?action=read&id=' + id);
+    el.classList.remove('bg-light','fw-semibold');
+    const badge = document.getElementById('notifBadge');
+    if (badge) { const n = parseInt(badge.textContent)-1; if(n<=0) badge.remove(); else badge.textContent=n; }
+}
+function markAllRead() {
+    fetch('ajax/notifications.php?action=read_all');
+    document.querySelectorAll('.dropdown-item.bg-light.fw-semibold')
+        .forEach(el => el.classList.remove('bg-light','fw-semibold'));
+    const badge = document.getElementById('notifBadge');
+    if (badge) badge.remove();
 }
 </script>
 </body>
