@@ -2,18 +2,18 @@
 session_start();
 require_once 'db/connection.php';
 
-// Prevent back button from restoring protected page after logout
+// Prevent back button restoring this page
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Pragma: no-cache");
 header("Expires: Sat, 01 Jan 2000 00:00:00 GMT");
 
-// If already logged in, go to dashboard
+// Already logged in
 if (isset($_SESSION['user_id'])) {
     header('Location: ' . $_SESSION['role'] . '/dashboard.php');
     exit;
 }
 
-// Remember me — auto login via token cookie
+// Remember me auto-login via secure token
 if (isset($_COOKIE['remember_token'])) {
     $token = $_COOKIE['remember_token'];
     $stmt  = $pdo->prepare(
@@ -34,7 +34,7 @@ if (isset($_COOKIE['remember_token'])) {
     }
 }
 
-// Only accept POST
+// Must be POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: index.html');
     exit;
@@ -44,9 +44,10 @@ $username = trim($_POST['username'] ?? '');
 $password = $_POST['password'] ?? '';
 $remember = isset($_POST['remember_me']);
 
-// Validate not empty
+// Empty fields
 if (empty($username) || empty($password)) {
-    header('Location: index.html?error=' . urlencode('Please enter both username and password.'));
+    header('Location: index.html?error=' .
+        urlencode('Please enter both username and password.'));
     exit;
 }
 
@@ -54,9 +55,10 @@ $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
 $stmt->execute([$username]);
 $user = $stmt->fetch();
 
-// Wrong username or wrong password — same message for security
+// Wrong username or password — single message, no hint which is wrong
 if (!$user || !password_verify($password, $user['password'])) {
-    header('Location: index.html?error=' . urlencode('Incorrect username or password. Please try again.'));
+    header('Location: index.html?error=' .
+        urlencode('Incorrect username or password. Please try again.'));
     exit;
 }
 
@@ -67,13 +69,14 @@ $_SESSION['full_name']      = $user['full_name'];
 $_SESSION['role']           = $user['role'];
 $_SESSION['is_first_login'] = $user['is_first_login'];
 
-// Remember me — store secure token in DB and cookie
+// Remember me — secure token stored in DB and cookie
 if ($remember) {
     $token   = bin2hex(random_bytes(32));
     $expires = date('Y-m-d H:i:s', time() + (86400 * 30));
     $pdo->prepare(
         "UPDATE users
-         SET remember_token = ?, remember_token_expires = ?
+         SET remember_token = ?,
+             remember_token_expires = ?
          WHERE id = ?"
     )->execute([$token, $expires, $user['id']]);
 
